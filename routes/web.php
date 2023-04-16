@@ -1,0 +1,73 @@
+<?php
+
+use App\Http\Controllers\BatchController;
+use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+Route::get('/', function(){
+    return redirect()->route('dashboard');
+});
+
+Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
+
+    Route::get('/', function () {
+        return view('index');
+    })->name('dashboard');
+
+    // set language
+    Route::get("locale/{lang}", function($lang){
+        App::setLocale($lang);
+        session()->put('language', $lang);
+        return redirect()->route("dashboard");
+    })->name("set.locale");
+
+    // language module
+    Route::get('/translate/{language}', [LanguageController::class, 'translate'])->name("translate");
+    Route::post('/translate/{language}', [LanguageController::class, 'translateStore'])->name("translate.store");
+    Route::resource('language', LanguageController::class);
+
+    // User Module
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/users', 'index')->name('users');
+        Route::get('/users/create', 'create')->name('users.create');
+        Route::post('/users/create', 'store')->name('users.create');
+        Route::get('/users/{user}', 'show')->name('users.show');
+        Route::get('/users/{user}/edit', 'edit')->name('users.edit');
+        Route::get('/users/assign-permission/{user}', 'assign_permission')->name('users.permission');
+        Route::post('/users/assign-permission/{user}', 'assign_permission_store')->name('users.permission');
+        Route::put('/users/{user}', 'update')->name('users.update');
+        Route::delete('/delete/{user}', 'destroy')->name('users.destroy');
+    });
+
+    // Role Module
+    Route::resource('roles', RoleController::class);
+    Route::get('permission/{role}', [RoleController::class, 'permission'])->name('permission');
+    Route::post('permission/{role}', [RoleController::class, 'permission_store'])->name('permission');
+
+
+    // settings
+    Route::prefix('settings')->group(function(){
+        Route::get('general', [SettingsController::class, 'index'])->name('settings.general');
+        Route::post('general', [SettingsController::class, 'store'])->name('settings.general');
+    });
+
+});
+
+require __DIR__.'/auth.php';

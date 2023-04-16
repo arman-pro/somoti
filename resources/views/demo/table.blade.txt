@@ -1,0 +1,18 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>SL</th>
+            <th>Column</th>
+            <th>Column</th>
+            <th>Column</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>01</td>
+            <td>Column</td>
+            <td>Column</td>
+            <td>Column</td>
+        </tr>
+    </tbody>
+</table>
