@@ -13,7 +13,7 @@ trait PermissionTrait {
     public function permission_list() {
 
         return [
-            'user', 'role', 'language',
+            'user', 'role', 'language', 'branch',
         ];
     }
 

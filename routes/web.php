@@ -1,12 +1,9 @@
 <?php
 
-use App\Http\Controllers\BatchController;
-use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +34,9 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         session()->put('language', $lang);
         return redirect()->route("dashboard");
     })->name("set.locale");
+
+    // branch module
+    Route::resource("branch", BranchController::class);
 
     // language module
     Route::get('/translate/{language}', [LanguageController::class, 'translate'])->name("translate");

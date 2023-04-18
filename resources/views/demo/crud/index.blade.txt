@@ -43,7 +43,7 @@
                     <h4 class="card-title">@lang('Card Title')</h4>
                 </div>
                 <div class="card-body">
-                    <table id="{{model}}_list" class="table table-striped table-bordered">
+                    <table id="{{model}}_list" class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($collections as $collection)
+                            @forelse ($collections as $collection)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td></td>
@@ -62,7 +62,7 @@
                                     @canany(['{{model}}-index', '{{model}}-create', '{{model}}-update', '{{model}}-destroy'])
                                     {{-- action button group --}}
                                     <div class="btn-group dropleft">
-                                        <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                         @lang('Action') <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" role="menu">
@@ -70,17 +70,21 @@
                                                 <a class="dropdown-item" href="{{route("{{model}}.show", ['{{model}}' => ${{model}}->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
                                             @endif
                                             @can('{{model}}-update')
-                                                <a class="dropdown-item" href="{{route('{{model}}.edit', ['user' => ${{model}}->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
+                                                <a class="dropdown-item" href="{{route('{{model}}.edit', ['{{model}}' => ${{model}}->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
                                             @endcan
                                             @can('{{model}}-destroy')
-                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('{{model}}.destroy', ['user' => ${{model}}->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
+                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('{{model}}.destroy', ['{{model}}' => ${{model}}->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
                                             @endcan
                                         </div>
                                     </div>
                                     @endcanany
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td class="text-center" colspan="4">@lang('No Data Found!')</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -120,7 +124,15 @@
 @push('js')
     <script>
         $(function () {
-            $("#{{model}}_list").DataTable({})
+            $("#{{model}}_list").DataTable({
+                "columnDefs": [
+                    {
+                        "targets": -1,
+                        "searchable": false,
+                        "orderable": false,
+                    }
+                ]
+            })
         });
 
         $(document).ready(function(){

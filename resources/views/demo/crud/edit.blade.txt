@@ -15,7 +15,7 @@
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{route('{{model}}-index')}}">@lang("Demo List")</a>
+                    <a href="{{route('{{model}}.index')}}">@lang("Demo List")</a>
                 </li>
                 <li class="breadcrumb-item active">@lang('Demo Title')</li>
             </ol>
@@ -41,7 +41,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <form action="{{route('{{model}}-update', ['{{model}}' => ${{model}}->id])}}" method="post">
+            <form action="{{route('{{model}}.update', ['{{model}}' => ${{model}}->id])}}" method="post">
                 @csrf @method('PUT')
                 <div class="card">
                     <div class="card-header">

@@ -44,32 +44,26 @@ class CrudGenerator extends Command
         $table = $this->option('table');
         $dir = $this->option('dir');
 
-        $lowerModel = Str::lower(Str::plural($model));
+        $lowerModel = Str::lower($model);
         if($table == '') {
-            $table = $lowerModel;
+            $table = Str::plural($lowerModel);
         }
 
         // create a migrations
-        Artisan::call('make:migration', [
+        $migrate = $this->call('make:migration', [
             'name' => "create_" . $table . "_table"
         ]);
 
-        $this->line('migration created');
-
         // make a model
-        Artisan::call("make:model", [
+        $model_ = $this->call("make:model", [
             'name' => $model
         ]);
 
-        $this->line('model created');
-
         // make a controller
-        Artisan::call("make:controller", [
+        $controller = $this->call("make:controller", [
             'name' => $model . "Controller",
             '--model' => $model
         ]);
-
-        $this->line('controller created');
 
         // index demo blade file
         $index_demo = app_path()."/../resources/views/demo/crud/index.blade.txt";
@@ -120,25 +114,17 @@ class CrudGenerator extends Command
             $this->warn("Unable to create index file");
         }
 
-        $this->line('index blade created');
-
         if(!file_put_contents($create, $create_file_content)) {
             $this->warn("Unable to create create file");
         }
-
-        $this->line('create blade created');
 
         if(!file_put_contents($edit, $edit_file_content)) {
             $this->warn("Unable to create edit file");
         }
 
-        $this->line('edit blade created');
-
         if(!file_put_contents($view, $view_file_content)) {
             $this->warn("Unable to create view file");
         }
-
-        $this->line('create blade created');
 
         $this->info("CRUD created successfull for " . $model);
 

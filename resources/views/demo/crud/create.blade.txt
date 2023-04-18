@@ -38,7 +38,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <form action="{{route('{{model}}-store')}}" method="post">
+            <form action="{{route('{{model}}.store')}}" method="post">
                 @csrf
                 <div class="card">
                     <div class="card-header">
