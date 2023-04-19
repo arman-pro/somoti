@@ -656,7 +656,7 @@
           {{-- settings module --}}
           @canany([
             'role-index', 'role-create', 'role-update',
-            'miscellaneous-general_setting',
+            'miscellaneous-general_setting', 'branch-index', 'group-index', 'area-index',
           ])
           <li class="nav-item">
             <a href="javascript:void()" class="nav-link">
@@ -685,26 +685,32 @@
               </li>
               @endcanany
 
+              @can('branch-index')
               <li class="nav-item">
                 <a href="{{route("branch.index")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>@lang('Branch')</p>
                 </a>
               </li>
+              @endcan
 
+              @can('area-index')
               <li class="nav-item">
                 <a href="{{route('area.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>@lang('Area')</p>
                 </a>
               </li>
+              @endcans
 
+              @can('group-index')
               <li class="nav-item">
                 <a href="{{route('group.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>@lang('Group')</p>
                 </a>
               </li>
+              @endcan
 
               <li class="nav-item">
                 <a href="#" class="nav-link">
