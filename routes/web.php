@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\RoleController;
@@ -35,6 +36,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         return redirect()->route("dashboard");
     })->name("set.locale");
 
+    // area module
+    Route::resource("area", AreaController::class);
     // branch module
     Route::resource("branch", BranchController::class);
 
