@@ -701,7 +701,7 @@
                   <p>@lang('Area')</p>
                 </a>
               </li>
-              @endcans
+              @endcan
 
               @can('group-index')
               <li class="nav-item">
