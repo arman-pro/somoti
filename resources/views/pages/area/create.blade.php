@@ -63,7 +63,7 @@
                                         @endforelse
 
                                     </select>
-                                    @error('email')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('group_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">

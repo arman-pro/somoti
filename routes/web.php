@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
@@ -36,6 +37,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         return redirect()->route("dashboard");
     })->name("set.locale");
 
+    // group modlue
+    Route::resource("group", GroupController::class);
     // area module
     Route::resource("area", AreaController::class);
     // branch module
