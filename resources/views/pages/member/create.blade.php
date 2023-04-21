@@ -53,6 +53,18 @@
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
+                                    <label for="joinDate">@lang('Join Date')</label>
+                                    <div class="input-group date" id="joinDatePickerOne" data-target-input="nearest">
+                                        <input type="text" name="join_date" placeholder="@lang('Join Date')" data-toggle="joinDatePicker" id="joinDate"  class="form-control form-control-sm @error('join_date') is-invalid @enderror datetimepicker-input" data-target="#joinDatePickerOne" />
+                                        <div class="input-group-append" data-target="#joinDatePickerOne" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                    @error('join_date')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
                                     <label for="member_no">@lang('Member No')</label>
                                     <input type="text" name="member_no" placeholder="@lang('Memebr No')" value="{{old('member_no')}}" id="member_no" class="form-control form-control-sm @error('member_no') is-invalid @enderror ">
                                     @error('member_no')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
@@ -93,14 +105,6 @@
                                     <label for="mother_name">@lang('Mother Name')</label>
                                     <input type="text" name="mother_name" placeholder="@lang('Mother Name')" value="{{old('mother_name')}}" id="mother_name" class="form-control form-control-sm @error('mother_name') is-invalid @enderror "/>
                                     @error('mother_name')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="nid">@lang('NID')</label>
-                                    <input type="text" name="nid" placeholder="@lang('NID')" value="{{old('nid')}}" id="nid" class="form-control form-control-sm @error('nid') is-invalid @enderror "/>
-                                    @error('nid')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
@@ -292,6 +296,162 @@
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@lang('Nominee Information')</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_name">@lang('Name')</label>
+                                    <input type="text" name="nominee[name]" placeholder="@lang('Name')" value="{{old('nominee.name')}}" id="nominee_name" class="form-control form-control-sm @error('nominee.name') is-invalid @enderror "/>
+                                    @error('nominee.name')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_relation">@lang('Relation With Member')</label>
+                                    <input type="text" name="nominee[relation]" placeholder="@lang('Relation With Member')" value="{{old('nominee.relation')}}" id="nominee_relation" class="form-control form-control-sm @error('nominee.relation') is-invalid @enderror "/>
+                                    @error('nominee.relation')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_father">@lang('Father Name')</label>
+                                    <input type="text" name="nominee[father]" placeholder="@lang('Father Name')" value="{{old('nominee.father')}}" id="nominee_father" class="form-control form-control-sm @error('nominee.father') is-invalid @enderror "/>
+                                    @error('nominee.father')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_mobile">@lang('Mobile')</label>
+                                    <input type="text" name="nominee[mobile]" placeholder="@lang('Mobile')" value="{{old('nominee.mobile')}}" id="nominee_mobile" class="form-control form-control-sm @error('nominee.mobile') is-invalid @enderror "/>
+                                    @error('nominee.mobile')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_division">@lang('Division')</label>
+                                    <input type="text" name="nominee[division]" placeholder="@lang('Division')" value="{{old('nominee.division')}}" id="nominee_division" class="form-control form-control-sm @error('nominee.division') is-invalid @enderror "/>
+                                    @error('nominee.division')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_district">@lang('District')</label>
+                                    <input type="text" name="nominee[district]" placeholder="@lang('District')" value="{{old('nominee.district')}}" id="nominee_district" class="form-control form-control-sm @error('nominee.district') is-invalid @enderror "/>
+                                    @error('nominee.district')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_upzilla">@lang('Thana/Upzilla')</label>
+                                    <input type="text" name="nominee[upzilla]" placeholder="@lang('Thana/Upzilla')" value="{{old('nominee.upzilla')}}" id="nominee_upzilla" class="form-control form-control-sm @error('nominee.upzilla') is-invalid @enderror "/>
+                                    @error('nominee.upzilla')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_post_office">@lang('Post Office')</label>
+                                    <input type="text" name="nominee[post_office]" placeholder="@lang('Post Office')" value="{{old('nominee.post_office')}}" id="nominee_post_office" class="form-control form-control-sm @error('nominee.post_office') is-invalid @enderror "/>
+                                    @error('nominee.post_office')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="nominee_village">@lang('Village')</label>
+                                    <input type="text" name="nominee[village]" placeholder="@lang('Village')" value="{{old('nominee.village')}}" id="nominee_village" class="form-control form-control-sm @error('nominee.village') is-invalid @enderror "/>
+                                    @error('nominee.village')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@lang('Nominee Documents')</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="nominee_nid">@lang('Nominee NID')</label>
+                                <div class="custom-file">
+                                    <input type="file" name="nominee[nid]" class="custom-file-input @error('nominee.nid') is-invalid @enderror" id="nominee_nid" />
+                                    <label class="custom-file-label" for="nominee_nid">@lang('Nominee NID')...</label>
+                                    @error('nominee.nid')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="nominee_other_document">@lang('Other Document')</label>
+                                <div class="custom-file">
+                                    <input type="file" name="nominee[other_document]" class="custom-file-input @error('nominee.other_document') is-invalid @enderror" id="nominee_other_document" />
+                                    <label class="custom-file-label" for="nominee_other_document">@lang('Other Document')...</label>
+                                    @error('nominee.other_document')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@lang('Member Documents')</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label for="member_nid">@lang('Member NID')</label>
+                                <div class="custom-file">
+                                    <input type="file" name="member[nid]" class="custom-file-input @error('member.nid') is-invalid @enderror" id="member_nid" />
+                                    <label class="custom-file-label" for="member_nid">@lang('Member NID')...</label>
+                                    @error('member.nid')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label for="member_other_document">@lang('Other Document')</label>
+                                <div class="custom-file">
+                                    <input type="file" name="member[other_document]" class="custom-file-input @error('member.other_document') is-invalid @enderror" id="member_other_document" />
+                                    <label class="custom-file-label" for="member_other_document">@lang('Other Document')...</label>
+                                    @error('member.other_document')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@lang('Profile')</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="card m-auto" style="max-width: 18rem;">
+                                    <div class="card-header">@lang('Member Profile')</div>
+                                    <div class="card-body">
+                                        <img src="{{asset('avatar.png')}}" alt="member avatar" class="img-thumbnail m-auto">
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="button" class="btn btn-sm btn-secondary">@lang('Upload') <i class="fa fa-upload"></i></button>
+                                        <button type="button" class="btn btn-sm btn-danger">@lang('Cancel') <i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="card m-auto" style="max-width: 18rem;">
+                                    <div class="card-header">@lang('Nominee Profile')</div>
+                                    <div class="card-body">
+                                        <img src="{{asset('avatar.png')}}" alt="nominee avatar" class="img-thumbnail m-auto">
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <button type="button" class="btn btn-sm btn-secondary">@lang('Upload') <i class="fa fa-upload"></i></button>
+                                        <button type="button" class="btn btn-sm btn-danger">@lang('Cancel') <i class="fa fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-footer">
                         <button class="btn btn-sm btn-success" type="submit">@lang('Save')</button>
                     </div>
@@ -318,6 +478,11 @@
     $(function () {
         $(function () {
             $('#datetimepicker1').datetimepicker({
+                format: "DD/MM/YYYY",
+                date: moment()
+            });
+
+            $('#joinDatePickerOne').datetimepicker({
                 format: "DD/MM/YYYY",
                 date: moment()
             });
