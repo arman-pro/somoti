@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Traits\AdminTrait;
 use App\Traits\PermissionTrait;
-use App\Traits\SuperAdminTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -13,7 +11,7 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    use AdminTrait, SuperAdminTrait, PermissionTrait;
+    use PermissionTrait;
     public function __construct()
     {
         // user permission
@@ -57,7 +55,6 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'nullable|email:rfc,filter|unique:users,email,',
-            'phone' => 'required|unique:users,phone,',
             'role_id' => 'nullable',
         ]);
 
@@ -75,20 +72,12 @@ class UserController extends Controller
             $data['active_status'] = false;
         }
 
-        if($this->super_admin()){
-            $data['level'] = 1;
-        }elseif($this->admin()){
-            $data['level'] = 2;
-            $data['institution_id'] = $this->institution_id();
-        }
-
-        $user = new User();
-
-        $user->create($data);
-        if($this->super_admin())
+        $user = User::create($data);
+        if($request->role_id) {
             $user->assignRole($request->role_id);
-
-        return redirect()->route('users')->with('created', 'User create successfully!');
+        }
+        alert()->success("Created", 'User create successfully!');
+        return redirect()->route('users');
     }
 
     // assign user permission
@@ -122,7 +111,8 @@ class UserController extends Controller
                 }
             }
         }
-        return redirect()->route('users')->with('updated', 'User permission updated successfully!');
+        alert()->success("Updated", 'User permission updated successfully!');
+        return redirect()->route('users');
     }
 
     /**
@@ -163,7 +153,6 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'nullable|email:rfc,filter|unique:users,email,'.$user->id,
-            'phone' => 'required|unique:users,phone,'.$user->id,
             'role_id' => 'nullable',
         ]);
 
@@ -181,10 +170,12 @@ class UserController extends Controller
             $data['active_status'] = false;
         }
         $user->update($data);
-        if($this->super_admin())
+        if($request->role_id){
             $user->assignRole($request->role_id);
+        }
+        alert()->success("Updated", 'User update successfully!');
+        return redirect()->route('users');
 
-        return redirect()->route('users')->with('updated', 'User update successfully!');
     }
 
     /**
@@ -196,6 +187,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users')->with('deleted', 'User delete Successfull!');
+        alert()->success("Deleted", 'User delete Successfull!');
+        return redirect()->route('users');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\GroupController;
@@ -43,6 +44,9 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
     Route::resource("area", AreaController::class);
     // branch module
     Route::resource("branch", BranchController::class);
+
+    // activity module
+    Route::resource("activity", ActivityController::class);
 
     // language module
     Route::get('/translate/{language}', [LanguageController::class, 'translate'])->name("translate");

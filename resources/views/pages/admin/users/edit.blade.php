@@ -62,14 +62,6 @@
 
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="phone">@lang('Phone')</label>
-                                <input type="tel" name="phone" placeholder="Phone" value="{{$user->phone}}" id="phone" class="form-control @error('phone') is-invalid @enderror "/>
-                                @error('phone')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
                                 <label for="password">@lang('Change Password')</label>
                                 <input type="password" name="password" placeholder="password" id="password" class="form-control" autocomplete="off" autocomplete="new-password"/>
                             </div>
@@ -89,7 +81,6 @@
                                 />
                             </div>
                         </div>
-                        @if($user->level == 'Super Admin')
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="role_id">@lang('User Role')</label>
@@ -104,7 +95,6 @@
                                 @error('role_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                             </div>
                         </div>
-                        @endif
                     </div>
             </div>
             <div class="card-footer text-right">

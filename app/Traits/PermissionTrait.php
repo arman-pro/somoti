@@ -36,7 +36,7 @@ trait PermissionTrait {
                 [
                     'General Setting' => 'general_setting',
                     'Backup Database' => 'database_backup',
-                    'User Permission' => 'user_permission',
+                    'Activity Log' => 'activity_log'
                 ]
             ],
         ];

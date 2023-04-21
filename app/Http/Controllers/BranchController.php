@@ -28,7 +28,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        $branches = Branch::all();
+        $branches = Branch::orderBy('code', 'asc')->get();
         return view($this->v_path . "index", compact('branches'));
     }
 

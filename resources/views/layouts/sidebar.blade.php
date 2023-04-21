@@ -712,12 +712,14 @@
               </li>
               @endcan
 
+              @can("miscellaneous-activity_log")
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('activity.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>@lang('Activity Log')</p>
                 </a>
               </li>
+              @endcan
 
               <li class="nav-item">
                 <a href="#" class="nav-link">
