@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\AdminTrait;
 use App\Traits\PermissionTrait;
-use App\Traits\SuperAdminTrait;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    use SuperAdminTrait, AdminTrait, PermissionTrait;
+    use PermissionTrait;
     // set user permission
     public function __construct()
     {
@@ -51,7 +49,7 @@ class RoleController extends Controller
     /**
      * Store Role permission
      */
-    public function permission($role) 
+    public function permission($role)
     {
         $role = Role::find($role);
         $permissions = $role->permissions->pluck('name')->toArray();
@@ -62,7 +60,7 @@ class RoleController extends Controller
 
     // store role permission
     public function permission_store(Request $request, $role) {
-    
+
         $permissions = $request->permission;
         $role = Role::find($role);
 

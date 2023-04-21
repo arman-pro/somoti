@@ -5,6 +5,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
@@ -38,6 +39,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         return redirect()->route("dashboard");
     })->name("set.locale");
 
+    // member module
+    Route::resource("member", MemberController::class);
     // group modlue
     Route::resource("group", GroupController::class);
     // area module

@@ -41,6 +41,7 @@
               </a>
             </li>
 
+          @canany(['member-index', 'member-create'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -50,21 +51,26 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('member-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('member.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Member List')
                 </a>
               </li>
+              @endcan
 
+              @can('member-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("member.create")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New Member')
                 </a>
               </li>
+              @endcan
             </ul>
           </li>
+          @endcanany
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
