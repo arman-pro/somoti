@@ -14,7 +14,7 @@ class Branch extends Model
         'name', 'code', 'is_active',
     ];
 
-    protected static $logAttributes = ['*'];
+    protected static $logAttributes = ['name', 'code', 'is_active'];
 
     public function getDescriptionForEvent(string $eventName): string
     {

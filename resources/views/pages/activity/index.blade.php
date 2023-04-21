@@ -72,7 +72,7 @@
     <script>
 
         $(document).ready(function(){
-            $("#activity").DataTable({
+            var table = $("#activity").DataTable({
                 "columnDefs": [
                     {
                         "targets": -1,
@@ -84,14 +84,35 @@
                 serverSide: true,
                 ajax: '{{route("activity.index")}}',
                 columns: [
+
                     { data: 'DT_RowIndex' },
                     { data: 'created_at' },
                     { data: 'log_name' },
                     { data: 'description' },
                     { data: 'subject_type' },
                     { data: 'causer.name', },
-                    { data: 'action' },
+                    {
+                        data: 'action',
+                        className: 'dt-control',
+                        orderable: false,
+                    },
                 ],
+            });
+
+            const format = (data) => {
+                return `<div>${data.changes}</div>`;
+            }
+
+            $(document).on('click', '.detail_btn', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                if (row.child.isShown()) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
             });
 
         });

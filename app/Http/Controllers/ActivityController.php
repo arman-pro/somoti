@@ -47,10 +47,13 @@ class ActivityController extends Controller
         ->editColumn('subject_type', function(Activity $activity) {
             return $activity->subject_type . ' (' . $activity->subject_id . ')';
         })
+        ->addColumn('changes', function(Activity $activity) {
+            return view('datatables.activity', compact('activity'));
+        })
         ->addColumn('action', function(Activity $activity) {
             return '<button type="button" class="btn btn-xs btn-success detail_btn"><i class="fa fa-eye"></i></button>';
         })
-        ->rawColumns(['action'])
+        ->rawColumns(['action', 'changes'])
         ->toJson();
     }
 

@@ -28,7 +28,7 @@ class User extends Authenticatable
         'active_status',
     ];
 
-    protected static $logAttributes = ['*'];
+    protected static $logAttributes = ['name', 'email', 'active_status'];
 
     public function getDescriptionForEvent(string $eventName): string
     {
