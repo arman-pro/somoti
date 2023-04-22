@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -38,7 +39,17 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view($this->v_path . "create");
+        $data['branches'] = Branch::select('id', 'name as text')
+            ->with([
+                'areas' => function($query) {
+                    return $query->select('id','name as text','branch_id')->whereIsActive(true);
+                },
+                'areas.groups' => function($query) {
+                    return $query->select('id','name as text','area_id')->whereIsActive(true);
+                }
+            ])
+            ->whereIsActive(true)->get();
+        return view($this->v_path . "create", $data);
     }
 
     /**
@@ -49,7 +60,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

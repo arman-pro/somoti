@@ -21,4 +21,9 @@ class Branch extends Model
         return "Branch has been {$eventName}";
     }
 
+    public function areas()
+    {
+        return $this->hasMany(Area::class);
+    }
+
 }

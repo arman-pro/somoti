@@ -17,4 +17,9 @@ class Area extends Model
     {
         return $this->belongsTo(Branch::class);
     }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
+    }
 }
