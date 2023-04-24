@@ -85,7 +85,7 @@
                 ajax: '{{route("activity.index")}}',
                 columns: [
 
-                    { data: 'DT_RowIndex' },
+                    { data: 'id' },
                     { data: 'created_at' },
                     { data: 'log_name' },
                     { data: 'description' },
@@ -97,6 +97,12 @@
                         orderable: false,
                     },
                 ],
+                "language": {
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-double-left"></i>',
+                        "next": '<i class="fa fa-angle-double-right"></i>'
+                    }
+                }
             });
 
             const format = (data) => {

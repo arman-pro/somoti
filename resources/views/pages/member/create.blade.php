@@ -72,9 +72,9 @@
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="acount">@lang('A/C No')</label>
-                                    <input type="text" name="acount" placeholder="@lang('A/C No')" value="{{old('acount')}}" id="acount" class="form-control form-control-sm @error('acount') is-invalid @enderror ">
-                                    @error('acount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    <label for="account">@lang('A/C No')</label>
+                                    <input type="text" name="account" placeholder="@lang('A/C No')" value="{{old('account')}}" id="account" class="form-control form-control-sm @error('account') is-invalid @enderror ">
+                                    @error('account')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
@@ -111,7 +111,7 @@
                                 <div class="form-group">
                                     <label for="dob">@lang('Date Of Birth')</label>
                                     <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                        <input type="text" name="info.date_of_birth" placeholder="@lang('Date Of Birth')" data-toggle="datetimepicker" id="date_of_birth"  class="form-control form-control-sm @error('info.date_of_birth') is-invalid @enderror datetimepicker-input" data-target="#datetimepicker1"/>
+                                        <input type="text" name="info[date_of_birth]" placeholder="@lang('Date Of Birth')" data-toggle="datetimepicker" id="date_of_birth"  class="form-control form-control-sm @error('info.date_of_birth') is-invalid @enderror datetimepicker-input" data-target="#datetimepicker1"/>
                                         <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -170,28 +170,28 @@
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="branch">@lang('Branch')*</label>
-                                    <select name="branch_id" id="branch" class="form-control form-control-sm @error('branch') is-invalid @enderror" required>
+                                    <select name="branch_id" id="branch" class="form-control form-control-sm @error('branch_id') is-invalid @enderror" required/>
                                         <option value="" hidden>@lang('Select a Branch')</option>
                                     </select>
-                                    @error('branch')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('branch_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="area">@lang('Area')*</label>
-                                    <select name="area_id" id="area" class="form-control form-control-sm @error('area') is-invalid @enderror" required>
+                                    <select name="area_id" id="area" class="form-control form-control-sm @error('area_id') is-invalid @enderror" required/>
                                         <option value="" hidden>@lang('Select a Area')</option>
                                     </select>
-                                    @error('area')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('area_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="group">@lang('Group')*</label>
-                                    <select name="group_id" id="group" class="form-control form-control-sm @error('group') is-invalid @enderror" required>
+                                    <select name="group_id" id="group" class="form-control form-control-sm @error('group_id') is-invalid @enderror" required/>
                                         <option value="" hidden>@lang('Select a Group')</option>
                                     </select>
-                                    @error('group')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('group_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                         </div>
@@ -376,17 +376,17 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="nominee_nid">@lang('Nominee NID')</label>
                                 <div class="custom-file">
-                                    <input type="file" name="nominee[nid]" accept="image/*,.pdf" class="custom-file-input @error('nominee.nid') is-invalid @enderror" id="nominee_nid" />
+                                    <input type="file" name="nominee_docs[nid]" accept="image/*,.pdf" class="custom-file-input @error('nominee_docs.nid') is-invalid @enderror" id="nominee_nid" />
                                     <label class="custom-file-label" for="nominee_nid">@lang('Nominee NID')...</label>
-                                    @error('nominee.nid')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('nominee_docs.nid')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <label for="nominee_other_document">@lang('Other Document')</label>
                                 <div class="custom-file">
-                                    <input type="file" name="nominee[other_document]" accept="image/*,.pdf" class="custom-file-input @error('nominee.other_document') is-invalid @enderror" id="nominee_other_document" />
+                                    <input type="file" name="nominee_docs[other_document]" accept="image/*,.pdf" class="custom-file-input @error('nominee_docs.other_document') is-invalid @enderror" id="nominee_other_document" />
                                     <label class="custom-file-label" for="nominee_other_document">@lang('Other Document')...</label>
-                                    @error('nominee.other_document')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('nominee_docs.other_document')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                         </div>

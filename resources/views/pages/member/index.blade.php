@@ -42,50 +42,22 @@
                 <div class="card-header">
                     <h4 class="card-title">@lang('Member List')</h4>
                 </div>
-                <div class="card-body">
-                    <table id="member_list" class="table table-sm table-striped table-bordered">
-                        <thead>
+                <div class="card-body overflow-auto">
+                    <table id="member_list" class="table table-sm table-striped table-bordered text-center">
+                        <thead class="bg-light">
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
-                                <th>@lang('Column')</th>
-                                <th>@lang('Column')</th>
+                                <th>@lang('Join Date')</th>
+                                <th>@lang('Name')</th>
+                                <th>@lang('Member No.')</th>
+                                <th>@lang('A/C No')</th>
+                                <th>@lang('Group')</th>
+                                <th>@lang('Area')</th>
+                                <th>@lang('Branch')</th>
+                                <th>@lang('Status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($members as $member)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    @canany(['member-index', 'member-create', 'member-update', 'member-destroy'])
-                                    {{-- action button group --}}
-                                    <div class="btn-group dropleft">
-                                        <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                        @lang('Action') <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
-                                            @can('member-index')
-                                                <a class="dropdown-item" href="{{route("member.show", ['member' => $member->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
-                                            @endif
-                                            @can('member-update')
-                                                <a class="dropdown-item" href="{{route('member.edit', ['member' => $member->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
-                                            @endcan
-                                            @can('member-destroy')
-                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('member.destroy', ['member' => $member->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
-                                            @endcan
-                                        </div>
-                                    </div>
-                                    @endcanany
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td class="text-center" colspan="4">@lang('No Data Found!')</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -122,7 +94,29 @@
                         "searchable": false,
                         "orderable": false,
                     }
-                ]
+                ],
+                processing: true,
+                serverSide: true,
+                ajax: '{{route("member.index")}}',
+                columns: [
+                    { data: 'id', orderSequence: ["desc"], },
+                    { data: 'join_date' },
+                    { data: 'name' },
+                    { data: 'member_no' },
+                    { data: 'account' },
+                    { data: 'group.name' },
+                    { data: 'group.area.name' },
+                    { data: 'group.area.branch.name' },
+                    { data: 'is_active',orderable:false,searchable:false },
+                    { data: 'action',orderable:false,searchable:false },
+                ],
+                "language": {
+                    "searchPlaceholder" : "Search here...",
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-double-left"></i>',
+                        "next": '<i class="fa fa-angle-double-right"></i>'
+                    }
+                }
             })
         });
 

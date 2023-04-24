@@ -59,7 +59,7 @@ class {{ class }} extends Controller
      */
     public function show({{ model }} ${{ modelVariable }})
     {
-        //
+        return view($this->v_path . "view", compact('{{ modelVariable }}'));
     }
 
     /**

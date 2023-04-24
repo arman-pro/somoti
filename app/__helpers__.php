@@ -5,3 +5,4 @@
 // include route helper functions file
 require_once __DIR__ . "/Helpers/RouteHelper.php";
 require_once __DIR__ . "/Helpers/ConfigHelper.php";
+require_once __DIR__ . "/Helpers/Helpers.php";

@@ -15,7 +15,7 @@
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="{{route('{{model}}-index')}}">@lang("Demo List")</a>
+                    <a href="{{route('{{model}}.index')}}">@lang("Demo List")</a>
                 </li>
                 <li class="breadcrumb-item active">@lang('Demo Title')</li>
             </ol>
