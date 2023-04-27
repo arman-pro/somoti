@@ -30,7 +30,7 @@
                 <div class="card-header">
                     <h4 class="card-title">@lang('Activity List')</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                     <table class="table table-sm table-striped" id="activity">
                         <thead>
                             <tr>

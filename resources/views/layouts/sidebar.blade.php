@@ -97,6 +97,7 @@
             </ul>
           </li>
 
+          @canany(['dpsType-index', 'dpsType-create', 'dps-index', 'dps-create'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
@@ -106,35 +107,45 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('dpsType-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("dpsType.index")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('DPS Type List')
                 </a>
               </li>
+              @endcan
 
+              @can('dpsType-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("dpsType.create")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New DPS Type')
                 </a>
               </li>
+              @endcan
 
+              @can('dps-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("dps.index")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('DPS List')
                 </a>
               </li>
+              @endcan
 
+              @can('dps-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("dps.create")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New DPS')
                 </a>
               </li>
+              @endcan
             </ul>
           </li>
+          @endcan
+
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">

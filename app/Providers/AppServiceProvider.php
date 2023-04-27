@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Language;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['layouts.admin'], function ($view) {
             $view->with('languages', Language::all());
         });
+
+
     }
 }

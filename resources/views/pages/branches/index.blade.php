@@ -130,7 +130,14 @@
                         "searchable": false,
                         "orderable": false,
                     }
-                ]
+                ],
+                "language": {
+                    "searchPlaceholder" : "Search here...",
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-double-left"></i>',
+                        "next": '<i class="fa fa-angle-double-right"></i>'
+                    }
+                }
             })
         });
 

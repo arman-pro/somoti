@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', __('Group List'))
+@section('title', __('DPS List'))
 
 @section('page-header')
     <!-- Content Header (Page header) -->
@@ -7,14 +7,14 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h4 class="m-0">@lang('Group List')</h4>
+            <h4 class="m-0">@lang('DPS List')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
-                <li class="breadcrumb-item active">@lang('Group List')</li>
+                <li class="breadcrumb-item active">@lang('DPS List')</li>
             </ol>
             </div>
         </div>
@@ -25,8 +25,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('group-create')
-                        <a href="{{route('group.create')}}" class="btn btn-sm btn-success">@lang('Add New Group')</a>
+                    @can('dps-create')
+                        <a href="{{route('dps.create')}}" class="btn btn-sm btn-success">@lang('Add New DPS')</a>
                     @endcan
                 </div>
             </div>
@@ -40,52 +40,40 @@
         <div class="col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">@lang('Group List')</h4>
+                    <h4 class="card-title">@lang('DPS List')</h4>
                 </div>
                 <div class="card-body">
-                    <table id="group_list" class="table table-sm table-striped table-bordered">
+                    <table id="dps_list" class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
-                                <th>@lang('Name')</th>
-                                <th>@lang('Code')</th>
-                                <th>@lang('Area')</th>
-                                <th>@lang('Branch')</th>
-                                <th>@lang('Status')</th>
+                                <th>@lang('Column')</th>
+                                <th>@lang('Column')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($groups as $group)
-                            <tr class="text-center">
+                            @forelse ($dpses as $dps)
+                            <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$group->name}}</td>
-                                <td>{{$group->code}}</td>
-                                <td>{{optional($group->area)->name}}</td>
-                                <td>{{optional($group->area->branch)->name}}</td>
-                                <td>
-                                    @if($group->is_active)
-                                        <span class="badge badge-success">@lang('Active')</span>
-                                    @else
-                                        <span class="badge badge-danger">@lang('Deactive')</span>
-                                    @endif
-                                </td>
+                                <td></td>
+                                <td></td>
                                 <td class="text-center">
-                                    @canany(['group-index', 'group-create', 'group-update', 'group-destroy'])
+                                    @canany(['dps-index', 'dps-create', 'dps-update', 'dps-destroy'])
                                     {{-- action button group --}}
                                     <div class="btn-group dropleft">
                                         <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                         @lang('Action') <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" role="menu">
-                                            {{-- @can('group-index')
-                                                <a class="dropdown-item" href="{{route("group.show", ['group' => $group->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
-                                            @endif --}}
-                                            @can('group-update')
-                                                <a class="dropdown-item" href="{{route('group.edit', ['group' => $group->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
+                                            @can('dps-index')
+                                                <a class="dropdown-item" href="{{route("dps.show", ['dps' => $dps->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
+                                            @endif
+                                            @can('dps-update')
+                                                <a class="dropdown-item" href="{{route('dps.edit', ['dps' => $dps->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
                                             @endcan
-                                            @can('group-destroy')
-                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('group.destroy', ['group' => $group->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
+                                            @can('dps-destroy')
+                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('dps.destroy', ['dps' => $dps->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
                                             @endcan
                                         </div>
                                     </div>
@@ -94,7 +82,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td class="text-center" colspan="7">@lang('No Data Found!')</td>
+                                <td class="text-center" colspan="4">@lang('No Data Found!')</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -112,7 +100,6 @@
     {{-- data tables style --}}
     <link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}" />
 @endpush
 {{-- extra js --}}
@@ -122,35 +109,20 @@
     <script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
-    <script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
-    <script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 @endpush
 {{-- extra js for this page --}}
 @push('js')
     <script>
         $(function () {
-            $("#group_list").DataTable({
+            $("#dps_list").DataTable({
                 "columnDefs": [
                     {
                         "targets": -1,
                         "searchable": false,
                         "orderable": false,
                     }
-                ],
-                "language": {
-                    "searchPlaceholder" : "Search here...",
-                    "paginate": {
-                        "previous": '<i class="fa fa-angle-double-left"></i>',
-                        "next": '<i class="fa fa-angle-double-right"></i>'
-                    }
-                }
+                ]
             })
         });
 

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\DpsController;
+use App\Http\Controllers\DpsTypeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MemberController;
@@ -41,6 +43,10 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
 
     // member module
     Route::resource("member", MemberController::class);
+    // dps type module
+    Route::resource("dpsType", DpsTypeController::class);
+    // dps module
+    Route::resource("dps", DpsController::class);
     // group modlue
     Route::resource("group", GroupController::class);
     // area module
