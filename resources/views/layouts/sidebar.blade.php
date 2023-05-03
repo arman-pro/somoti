@@ -146,7 +146,7 @@
           </li>
           @endcan
 
-
+          @canany(['fdrType-index', 'fdrType-create'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-coins"></i>
@@ -156,19 +156,23 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('fdrType-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('fdrtype.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('FDR Type List')
                 </a>
               </li>
+              @endcan
 
+              @can('fdrType-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("fdrtype.create")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New FDR Type')
                 </a>
               </li>
+              @endcan
 
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -185,6 +189,7 @@
               </li>
             </ul>
           </li>
+          @endcanany
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">

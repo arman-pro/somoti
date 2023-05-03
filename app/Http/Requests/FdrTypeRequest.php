@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DpsTypeRequest extends FormRequest
+class FdrTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class DpsTypeRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->canany(['dpsType-create', 'dpsType-update']);
+        return $this->user()->canany(['fdrType-create', 'fdrType-update']);
     }
 
     /**
@@ -25,7 +25,7 @@ class DpsTypeRequest extends FormRequest
     {
         return [
             "name" => ["required", "string"],
-            "code" => ["required", "max:5", "unique:dpstypes,code," . optional($this->dpsType)->id],
+            "code" => ["required", "max:5", "unique:fdrtypes,code," . optional($this->fdrType)->id],
             "duration" => ["required"],
             "interest_rate" => ["required"],
         ];
