@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class DpsTypeController extends Controller
 {
 
-    protected $v_path = "pages.dpsType.";
+    protected $v_path = "pages.dpstype.";
 
     public function __construct()
     {

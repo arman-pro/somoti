@@ -42,50 +42,22 @@
                 <div class="card-header">
                     <h4 class="card-title">@lang('DPS List')</h4>
                 </div>
-                <div class="card-body">
-                    <table id="dps_list" class="table table-sm table-striped table-bordered">
+                <div class="card-body overflow-auto">
+                    <table id="dps_list" class="table table-sm table-striped table-bordered text-center">
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
-                                <th>@lang('Column')</th>
-                                <th>@lang('Column')</th>
+                                <th>@lang('Date')</th>
+                                <th>@lang('Member') @lang('Name')</th>
+                                <th>@lang('Member ID')</th>
+                                <th>@lang('DPS Type')</th>
+                                <th>@lang('Start Date')</th>
+                                <th>@lang('Expire Date')</th>
+                                <th>@lang('Profit')</th>
+                                <th>@lang('Matured') @lang('status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($dpses as $dps)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    @canany(['dps-index', 'dps-create', 'dps-update', 'dps-destroy'])
-                                    {{-- action button group --}}
-                                    <div class="btn-group dropleft">
-                                        <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                        @lang('Action') <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
-                                            @can('dps-index')
-                                                <a class="dropdown-item" href="{{route("dps.show", ['dps' => $dps->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
-                                            @endif
-                                            @can('dps-update')
-                                                <a class="dropdown-item" href="{{route('dps.edit', ['dps' => $dps->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
-                                            @endcan
-                                            @can('dps-destroy')
-                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('dps.destroy', ['dps' => $dps->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
-                                            @endcan
-                                        </div>
-                                    </div>
-                                    @endcanany
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td class="text-center" colspan="4">@lang('No Data Found!')</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -122,8 +94,30 @@
                         "searchable": false,
                         "orderable": false,
                     }
-                ]
-            })
+                ],
+                processing: true,
+                serverSide: true,
+                ajax: '{{route("dps.index")}}',
+                columns: [
+                    { data: 'id', orderSequence: ["desc"], },
+                    { data: 'date' },
+                    { data: 'member.name', className:'text-left' },
+                    { data: 'member.member_no', className:'text-left' },
+                    { data: 'dps_type.name' },
+                    { data: 'start_date' },
+                    { data: 'expire_date' },
+                    { data: 'profit' },
+                    { data: 'status', orderable:true,searchable:false,name: 'is_matured' },
+                    { data: 'action', orderable:false,searchable:false },
+                ],
+                "language": {
+                    "searchPlaceholder" : "Search here...",
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-double-left"></i>',
+                        "next": '<i class="fa fa-angle-double-right"></i>'
+                    }
+                },
+            });
         });
 
         $(document).ready(function(){

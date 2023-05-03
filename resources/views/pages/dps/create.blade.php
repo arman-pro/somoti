@@ -165,7 +165,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="comment">@lang('Comment')</label>
-                                    <textarea name="comment" id="comment" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " cols="30" rows="4" placeholder="@lang('Comment')"></textarea>
+                                    <textarea name="comment" id="comment" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " cols="30" rows="4" placeholder="@lang('Comment')">{{old('comment')}}</textarea>
                                     @error('comment')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>

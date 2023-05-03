@@ -23,9 +23,9 @@ class CreateDpsTable extends Migration
             $table->integer('number_of_installment');
             $table->date('start_date');
             $table->date('expire_date');
-            $table->double('fine_missing_dps, 8, 2');
-            $table->double('profit, 8, 2');
-            $table->double('total_amount, 8, 2');
+            $table->double('fine_missing_dps', 8, 2);
+            $table->double('profit', 8, 2);
+            $table->double('total_amount', 8, 2);
             $table->boolean('is_matured')->default(false);
             $table->mediumText('comment')->nullable();
             $table->timestamps();

@@ -15,6 +15,7 @@ class Dps extends Model
         "fine_missing_dps", "profit", "total_amount", "is_matured", "comment",
     ];
 
+
     protected static $logAttributes = [
         "date", "member_id", "dpstype_id", "account","amount_per_installment", "number_of_installment", "start_date", "expire_date",
         "fine_missing_dps", "profit", "total_amount", "is_matured", "comment",
@@ -23,5 +24,15 @@ class Dps extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "DPS has been {$eventName}";
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function dpsType()
+    {
+        return $this->belongsTo(DpsType::class, 'dpstype_id');
     }
 }
