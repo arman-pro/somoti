@@ -73,4 +73,15 @@ if(!function_exists('saveDateFormat')) {
     }
 }
 
+if(!function_exists('modelAlais')) {
+    /**
+     * get model alais
+     * @return string
+     */
+    function modelAlais($modelName) {
+        $modelAlais = getModelAlaisList();
+        return $modelAlais[$modelName] ?? $modelName;
+    }
+}
+
 

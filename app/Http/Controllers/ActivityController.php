@@ -37,15 +37,15 @@ class ActivityController extends Controller
      */
     public function datatable()
     {
-        $activity = Activity::with(['causer'])->orderBy('id', 'desc')->get();
-        return DataTables::of($activity)
+        $activity = Activity::with(['causer'])->orderBy('id', 'desc');
+        return DataTables()->eloquent($activity)
         ->addIndexColumn()
         ->editColumn('created_at', function(Activity $activity) {
             $carbon = new Carbon($activity->created_at);
             return $carbon->diffForHumans();
         })
         ->editColumn('subject_type', function(Activity $activity) {
-            return $activity->subject_type . ' (' . $activity->subject_id . ')';
+            return modelAlais($activity->subject_type) . ' (' . $activity->subject_id . ')';
         })
         ->addColumn('changes', function(Activity $activity) {
             return view('datatables.activity', compact('activity'));

@@ -34,3 +34,13 @@ if(!function_exists('printDateFormat')) {
     }
 }
 
+if(!function_exists('getModelAlaisList')) {
+    /**
+     * get all model alais
+     * @return array
+     */
+    function getModelAlaisList() {
+        return config('modelalais.model');
+    }
+}
+

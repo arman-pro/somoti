@@ -39,6 +39,11 @@ class FdrController extends Controller
         return view($this->v_path . "index");
     }
 
+
+    /**
+     * datatables
+     * @return \Illuminate\Http\Resources\Json
+     */
     public function datatables()
     {
         $dpses = Fdr::with(['member:id,name,member_no', 'fdrType:id,name'])->orderBy('id', 'desc');
