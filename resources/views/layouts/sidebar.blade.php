@@ -146,7 +146,7 @@
           </li>
           @endcan
 
-          @canany(['fdrType-index', 'fdrType-create'])
+          @canany(['fdrType-index', 'fdrType-create', 'fdr-index', 'fdr-create'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-coins"></i>
@@ -174,19 +174,23 @@
               </li>
               @endcan
 
+              @can('fdr-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("fdr.index")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('FDR List')
                 </a>
               </li>
+              @endcan
 
+              @can('fdr-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("fdr.create")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New FDR')
                 </a>
               </li>
+              @endcan
             </ul>
           </li>
           @endcanany

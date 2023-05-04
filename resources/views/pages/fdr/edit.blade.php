@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', __('Add New DPS'))
+@section('title', __('Edit FDR'))
 
 @section('page-header')
     <!-- Content Header (Page header) -->
@@ -7,14 +7,17 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h4 class="m-0">@lang('Add New DPS')</h4>
+                <h4 class="m-0">@lang('Edit FDR')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
-                <li class="breadcrumb-item active">@lang('Add New DPS')</li>
+                <li class="breadcrumb-item">
+                    <a href="{{route('fdr.index')}}">@lang("FDR List")</a>
+                </li>
+                <li class="breadcrumb-item active">@lang('Edit FDR')</li>
             </ol>
             </div>
         </div>
@@ -25,8 +28,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('dps-index')
-                        <a href="{{route('dps.index')}}" class="btn btn-sm btn-success">@lang('DPS List')</a>
+                    @can('fdr-index')
+                        <a href="{{route('fdr.index')}}" class="btn btn-sm btn-success">@lang('FDR List')</a>
                     @endcan
                 </div>
             </div>
@@ -38,11 +41,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <form action="{{route('dps.store')}}" method="post">
-                @csrf
+            <form action="{{route('fdr.update', ['fdr' => $fdr->id])}}" method="post">
+                @csrf @method('PUT')
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">@lang('Add New DPS')</h4>
+                        <h4 class="card-title">@lang('Card Title')</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -68,6 +71,7 @@
                                                 data-mobile="{{$member->mobile}}"
                                                 data-account="{{$member->account}}"
                                                 value="{{$member->id}}"
+                                                @if($fdr->member_id == $member->id) selected @endif
                                             >{{$member->name}}</option>
                                         @empty
                                         @endforelse
@@ -78,42 +82,39 @@
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="account">@lang('A/C No')*</label>
-                                    <input type="text" name="account" placeholder="@lang('A/C No')" value="{{old('account')}}" id="account" class="form-control form-control-sm @error('account') is-invalid @enderror " required/>
+                                    <input type="text" name="account" placeholder="@lang('A/C No')" value="{{$fdr->account}}" id="account" class="form-control form-control-sm @error('account') is-invalid @enderror " required/>
                                     @error('account')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="mobile">@lang('Mobile')</label>
-                                    <input type="tel" name="mobile" placeholder="@lang('Mobile')" value="{{old('mobile')}}" id="mobile" class="form-control form-control-sm @error('mobile') is-invalid @enderror "/>
+                                    <input type="tel" name="mobile" placeholder="@lang('Mobile')" value="{{$fdr->mobile}}" id="mobile" class="form-control form-control-sm @error('mobile') is-invalid @enderror "/>
                                     @error('mobile')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="amount_per_installment">@lang('Amount Per Installment')*</label>
-                                    <input type="number" name="amount_per_installment" placeholder="@lang('Amount Per Installment')" value="{{old('amount_per_installment')}}" id="amount_per_installment" class="form-control form-control-sm @error('amount_per_installment') is-invalid @enderror " required/>
-                                    @error('amount_per_installment')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    <label for="fdr_amount">@lang('FDR Amount')*</label>
+                                    <input type="number" name="fdr_amount" placeholder="@lang('FDR Amount')" value="{{$fdr->fdr_amount}}" id="fdr_amount" class="form-control form-control-sm @error('fdr_amount') is-invalid @enderror " required/>
+                                    @error('fdr_amount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="number_of_installment">@lang('Number Of Installment')*</label>
-                                    <input type="number" name="number_of_installment" placeholder="@lang('Number Of Installment')" value="{{old('number_of_installment')}}" id="number_of_installment" class="form-control form-control-sm @error('number_of_installment') is-invalid @enderror " required/>
-                                    @error('number_of_installment')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="dpstype_id">@lang('DPS Type')*</label>
-                                    <select name="dpstype_id" id="dpstype_id" class="form-control form-control-sm @error('dpstype_id') is-invalid @enderror" required/>
-                                        <option value="" hidden>@lang('Select a DPS Type')</option>
-                                        @forelse ($dpsTypes as $dpsType)
-                                            <option data-interest="{{$dpsType->interest_rate}}" value="{{$dpsType->id}}">{{$dpsType->name}} ({{$dpsType->interest_rate}}%)</option>
+                                    <label for="fdrtype_id">@lang('FDR Type')*</label>
+                                    <select name="fdrtype_id" id="fdrtype_id" class="form-control form-control-sm @error('fdrtype_id') is-invalid @enderror" required/>
+                                        <option value="" hidden>@lang('Select a FDR Type')</option>
+                                        @forelse ($fdrTypes as $fdrType)
+                                            <option
+                                                data-interest="{{$fdrType->interest_rate}}"
+                                                value="{{$fdrType->id}}"
+                                                @if($fdrType->id == $fdr->fdrtype_id) selected @endif
+                                            >{{$fdrType->name}} ({{$fdrType->interest_rate}}%)</option>
                                         @empty
                                         @endforelse
                                     </select>
-                                    @error('dpstype_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    @error('fdrtype_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
 
@@ -143,29 +144,47 @@
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="fine_missing_dps">@lang('Fine Missing DPS')*</label>
-                                    <input type="number" name="fine_missing_dps" placeholder="@lang('Fine Missing DPS')" value="{{old('fine_missing_dps')}}" id="fine_missing_dps" class="form-control form-control-sm @error('fine_missing_dps') is-invalid @enderror " required/>
-                                    @error('fine_missing_dps')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    <label for="return_interest">@lang('Return Interest')*</label>
+                                    <input type="number" name="return_interest" placeholder="@lang('Return Interest')" value="{{$fdr->return_interest}}" id="return_interest" class="form-control form-control-sm @error('return_interest') is-invalid @enderror " required/>
+                                    @error('return_interest')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="profit">@lang('Profit')*</label>
-                                    <input type="number" name="profit" placeholder="@lang('Profit')" value="{{old('profit')}}" id="profit" class="form-control form-control-sm @error('profit') is-invalid @enderror " required/>
-                                    @error('profit')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    <label for="refer_member">@lang('Ref. Member')*</label>
+                                    <select name="refer_member" id="refer_member" class="form-control form-control-sm @error('refer_member') is-invalid @enderror" required/>
+                                        <option value="" hidden>@lang('Select a Refer Member')</option>
+                                        @forelse ($members as $member)
+                                            <option
+                                                value="{{$member->id}}"
+                                                @if($member->id == $fdr->refer_member) selected @endif
+                                            >{{$member->name}}</option>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                    @error('member_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="total_amount">@lang('Total Amount')*</label>
-                                    <input type="number" name="total_amount" placeholder="@lang('Total Amount')" value="{{old('total_amount')}}" id="total_amount" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " required/>
-                                    @error('total_amount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                    <label for="refer_user">@lang('Ref. User')*</label>
+                                    <select name="refer_user" id="refer_user" class="form-control form-control-sm @error('refer_user') is-invalid @enderror" required/>
+                                        <option value="" hidden>@lang('Select a Refer User')</option>
+                                        @forelse ($users as $user)
+                                            <option
+                                                value="{{$user->id}}"
+                                                @if($user->id == $fdr->refer_user) selected @endif
+                                            >{{$user->name}}</option>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                    @error('member_id')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="comment">@lang('Comment')</label>
-                                    <textarea name="comment" id="comment" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " cols="30" rows="4" placeholder="@lang('Comment')">{{old('comment')}}</textarea>
+                                    <textarea name="comment" id="comment" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " cols="30" rows="4" placeholder="@lang('Comment')">{{$fdr->comment}}</textarea>
                                     @error('comment')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
@@ -205,17 +224,17 @@
 
         $('#joinDatePickerOne').datetimepicker({
             format: "{{dataFormat()}}",
-            date: moment(),
+            date: "{{$fdr->date}}",
         });
 
         $('#startDatePicker').datetimepicker({
             format: "{{dataFormat()}}",
-            date: moment(),
+            date: "{{$fdr->start_date}}",
         });
 
         $('#expireDatePicker').datetimepicker({
             format: "{{dataFormat()}}",
-            date: moment(),
+            date: "{{$fdr->expire_date}}",
         });
 
         $('#member').select2({
@@ -224,10 +243,26 @@
             placeholder: "@lang('Select a Member')",
         });
 
-        $('#dpstype_id').select2({
+        $('#refer_member').select2({
             theme: "bootstrap4",
             allowClear: true,
-            placeholder: "@lang('Select a DPS Type')",
+            placeholder: "@lang('Select a Refer Member')",
+        });
+
+        $('#refer_user').select2({
+            theme: "bootstrap4",
+            allowClear: true,
+            placeholder: "@lang('Select a Refer User')",
+        });
+
+        $('#fdrtype_id').select2({
+            theme: "bootstrap4",
+            allowClear: true,
+            placeholder: "@lang('Select a FDR Type')",
+        });
+
+        $('#fdr_amount').on("input", function() {
+           $('#fdrtype_id').val('').trigger('change');
         });
 
         $('#member').on("change", function() {
@@ -237,16 +272,16 @@
             $('#account').val(account);
         });
 
-        $('#dpstype_id').on("change", function() {
+        $('#member').trigger('change');
+
+        $('#fdrtype_id').on("change", function() {
             let interest_rate = $(this).find(':selected').attr('data-interest');
-            let amount_per_installment = $('#amount_per_installment').val();
-            let number_of_installment = $('#number_of_installment').val()
-            let total_amount = (amount_per_installment || 1) * (number_of_installment || 1);
-            let profit = ((total_amount * interest_rate) / 100);
-            $('#profit').val(profit);
-            $('#total_amount').val(total_amount+profit);
+            let fdr_amount = $('#fdr_amount').val();
+            let return_interest = ((fdr_amount * interest_rate) / 100);
+            $('#return_interest').val(return_interest);
         });
 
+        $('#fdrtype_id').trigger('change');
 
     });
 </script>

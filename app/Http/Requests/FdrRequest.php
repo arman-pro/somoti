@@ -13,7 +13,7 @@ class FdrRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->canany(['fdr-create', 'fdr-update']);
     }
 
     /**
@@ -24,7 +24,17 @@ class FdrRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "date" => ['required', 'date_format:'.filterDateFormat().''],
+            "member_id" => ['required', 'numeric'],
+            "fdrtype_id" => ['required', 'numeric'],
+            "account" => ['required'],
+            "fdr_amount" => ['required', 'integer'],
+            "return_interest" => ['required', 'integer'],
+            "start_date" => ['required', 'date_format:'.filterDateFormat().''],
+            "expire_date" => ['required', 'date_format:'.filterDateFormat().''],
+            "refer_member" => ['required', 'numeric'],
+            "refer_user" => ['required', 'numeric'],
+            "comment" => ['nullable'],
         ];
     }
 }
