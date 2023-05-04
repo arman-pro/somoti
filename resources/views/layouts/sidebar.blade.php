@@ -72,6 +72,7 @@
           </li>
           @endcanany
 
+          @canany(['savings-create', 'savings-update'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-wallet"></i>
@@ -81,21 +82,26 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('savings-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('savings.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Savings List')
                 </a>
               </li>
+              @endcan
 
+              @can('savings-update')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('savings.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New Saving')
                 </a>
               </li>
+              @endcan
             </ul>
           </li>
+          @endcanany
 
           @canany(['dpsType-index', 'dpsType-create', 'dps-index', 'dps-create'])
           <li class="nav-item">

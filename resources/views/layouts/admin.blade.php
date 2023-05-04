@@ -199,6 +199,11 @@
 
     {{-- submit logout form --}}
     <script>
+        const LOADING_SPINNER = `<div class="text-center">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden"></span>
+  </div>
+</div>`;
         $(document).ready(function() {
             $('#logout_btn').on('click', function(e) {
                 e.preventDefault();

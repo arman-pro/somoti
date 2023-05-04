@@ -11,6 +11,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SavingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\App;
@@ -45,6 +46,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
 
     // member module
     Route::resource("member", MemberController::class);
+    // saving module
+    Route::resource("savings", SavingController::class);
     // dps type module
     Route::resource("dpsType", DpsTypeController::class);
     // dps module

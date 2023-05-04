@@ -7,12 +7,15 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h4 class="m-0">@lang('Demo Title')</h4>
+                <h4 class="m-0">@lang('Demo Title')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{route('saving.index')}}">@lang("Demo List")</a>
                 </li>
                 <li class="breadcrumb-item active">@lang('Demo Title')</li>
             </ol>
@@ -25,8 +28,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('{{model}}-index')
-                        <a href="{{route('{{model}}.index')}}" class="btn btn-sm btn-success">@lang('Button')</a>
+                    @can('saving-index')
+                        <a href="{{route('saving.index')}}" class="btn btn-sm btn-success">@lang('Button')</a>
                     @endcan
                 </div>
             </div>
@@ -38,8 +41,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <form action="{{route('{{model}}.store')}}" method="post">
-                @csrf
+            <form action="{{route('saving.update', ['saving' => $saving->id])}}" method="post">
+                @csrf @method('PUT')
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">@lang('Card Title')</h4>
@@ -49,14 +52,14 @@
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label for="name">@lang('Name')</label>
-                                    <input type="text" name="name" placeholder="name" value="{{old('name')}}" id="name" class="form-control form-control-sm @error('name') is-invalid @enderror ">
+                                    <input type="text" name="name" placeholder="name" value="{{old('name')}}" id="name" class="form-control @error('name') is-invalid @enderror ">
                                     @error('name')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label for="email">@lang('E-mail')</label>
-                                    <input type="text" name="email" placeholder="E-mail" value="{{old('email')}}" id="email" class="form-control form-control-sm @error('email') is-invalid @enderror "/>
+                                    <input type="text" name="email" placeholder="E-mail" value="{{old('email')}}" id="email" class="form-control @error('email') is-invalid @enderror "/>
                                     @error('email')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>

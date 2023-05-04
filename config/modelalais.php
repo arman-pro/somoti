@@ -14,6 +14,7 @@ return [
         'App\Models\Group' => "Group",
         'App\Models\Language' => "Language",
         'App\Models\Member' => "Member",
+        'App\Models\Saving' => "Savings",
         'App\Models\Setting' => "Setting",
         'App\Models\User' => "User",
     ]
