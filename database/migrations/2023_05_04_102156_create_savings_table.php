@@ -15,6 +15,11 @@ class CreateSavingsTable extends Migration
     {
         Schema::create('savings', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
+            $table->char('voucher_no', 10);
+            $table->double('amount', 8, 2);
+            $table->foreignId('member_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->mediumText('comment')->nullable();
             $table->timestamps();
         });
     }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Saving;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SavingRequest;
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Datatables;
 
 class SavingController extends Controller
 {
@@ -28,7 +30,41 @@ class SavingController extends Controller
      */
     public function index()
     {
+        if(request()->ajax()) {
+            return $this->datatables();
+        }
         return view($this->v_path . "index");
+    }
+
+    public function datatables()
+    {
+        $savings = Saving::with([
+            'member:id,name,group_id',
+            'member.group:id,name,area_id',
+            'member.group.area:id,name,branch_id',
+            'member.group.area.branch:id,name'
+        ])
+        ->orderBy('id', 'desc');
+        $preBalance = 0;
+        $tempAmount = 0;
+        $totalBalance = 0;
+        return Datatables()->eloquent($savings)
+        ->addIndexColumn()
+        ->editColumn('date', function(Saving $saving) {
+            return printDateFormat($saving->date);
+        })
+        ->addColumn('pre_balance', function(Saving $saving) use(&$preBalance, &$tempAmount) {
+            $preBalance += $tempAmount; $tempAmount = $saving->amount;
+            return $preBalance;
+        })
+        ->addColumn('total_balance', function(Saving $saving) use(&$totalBalance) {
+            return ($totalBalance += $saving->amount);
+        })
+        ->addColumn('action', function(Saving $saving) {
+            return view('action.saving', compact('saving'));
+        })
+        ->rawColumns(['action'])
+        ->toJson();
     }
 
     /**
@@ -38,11 +74,6 @@ class SavingController extends Controller
      */
     public function create()
     {
-        if(request()->ajax() && request()->has('member')) {
-            $member = Member::findOrFail(request()->member);
-            return view('includes.member', compact("member"));
-        }
-
         $members = Member::whereIsActive(true)->orderBy('id', 'desc')->get();
         return view($this->v_path . "create", compact('members'));
     }
@@ -50,12 +81,24 @@ class SavingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\SavingRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SavingRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['date'] = saveDateFormat($data['date']);
+        if(!$request->voucher_no) {
+            $data['voucher_no'] = SavingVchGenerate();
+        }
+        $saving = Saving::create($data);
+        $member = $saving->member;
+        // update saving amount
+        $member->update([
+            'saving_amount' => $member->saving_amount += $data['amount'],
+        ]);
+        alert()->success('Created', 'Savings created succesfully!');
+        return redirectToRoute("savings.index");
     }
 
     /**

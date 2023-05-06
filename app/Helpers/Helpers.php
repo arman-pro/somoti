@@ -84,4 +84,23 @@ if(!function_exists('modelAlais')) {
     }
 }
 
-
+if(!function_exists('SavingVchGenerate')) {
+    /**
+     * generate a unique voucher no
+     * @return string unique voucher
+     */
+    function SavingVchGenerate($prefix='SV'){
+        $lastSavings = \App\Models\Saving::select('voucher_no')->where('voucher_no', 'LIKE', $prefix . '%')->latest()->first();
+        if($lastSavings) {
+            $member_no = str_replace("$prefix-", '', $lastSavings->voucher_no);
+            if($member_no < 9) {
+                return "$prefix-00" . ($member_no + 1);
+            }
+            if($member_no < 99) {
+                return "$prefix-0" . ($member_no + 1);
+            }
+            return "$prefix-" . ($member_no + 1);
+        }
+        return "$prefix-001";
+    }
+}

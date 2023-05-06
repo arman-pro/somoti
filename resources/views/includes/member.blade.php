@@ -33,6 +33,10 @@
                     <th>@lang('Mobile')</th>
                     <td>{{$member->mobile ?? "N/A"}}</td>
                 </tr>
+                <tr>
+                    <th>@lang('Savings Amount')</th>
+                    <td>{{$member->saving_amount ?? "0.00"}}</td>
+                </tr>
             </tbody>
         </table>
     </div>

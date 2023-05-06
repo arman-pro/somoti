@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', __('Demo Title'))
+@section('title', __('Savings List'))
 
 @section('page-header')
     <!-- Content Header (Page header) -->
@@ -7,14 +7,14 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h4 class="m-0">@lang('Demo Title')</h4>
+            <h4 class="m-0">@lang('Savings List')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
-                <li class="breadcrumb-item active">@lang('Demo Title')</li>
+                <li class="breadcrumb-item active">@lang('Savings List')</li>
             </ol>
             </div>
         </div>
@@ -25,8 +25,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('saving-create')
-                        <a href="{{route('saving.create')}}" class="btn btn-sm btn-success">@lang('Button')</a>
+                    @can('savings-create')
+                        <a href="{{route('savings.create')}}" class="btn btn-sm btn-success">@lang('Add New Saving')</a>
                     @endcan
                 </div>
             </div>
@@ -40,52 +40,25 @@
         <div class="col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">@lang('Card Title')</h4>
+                    <h4 class="card-title">@lang('Savings List')</h4>
                 </div>
                 <div class="card-body">
                     <table id="saving_list" class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
-                                <th>@lang('Column')</th>
-                                <th>@lang('Column')</th>
+                                <th>@lang('Date')</th>
+                                <th>@lang('Voucher No')</th>
+                                <th>@lang('Member Name')</th>
+                                <th>@lang('Branch')</th>
+                                <th>@lang('Area')</th>
+                                <th>@lang('Group')</th>
+                                <th>@lang('Previous Balance')</th>
+                                <th>@lang('Saving Amount')</th>
+                                <th>@lang('Total')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse ($collections as $collection)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    @canany(['saving-index', 'saving-create', 'saving-update', 'saving-destroy'])
-                                    {{-- action button group --}}
-                                    <div class="btn-group dropleft">
-                                        <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                        @lang('Action') <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <div class="dropdown-menu" role="menu">
-                                            @can('saving-index')
-                                                <a class="dropdown-item" href="{{route("saving.show", ['saving' => $saving->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
-                                            @endif
-                                            @can('saving-update')
-                                                <a class="dropdown-item" href="{{route('saving.edit', ['saving' => $saving->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
-                                            @endcan
-                                            @can('saving-destroy')
-                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('saving.destroy', ['saving' => $saving->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
-                                            @endcan
-                                        </div>
-                                    </div>
-                                    @endcanany
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td class="text-center" colspan="4">@lang('No Data Found!')</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
                     </table>
                 </div>
             </div>
@@ -122,7 +95,30 @@
                         "searchable": false,
                         "orderable": false,
                     }
-                ]
+                ],
+                processing: true,
+                serverSide: true,
+                ajax: '{{route("savings.index")}}',
+                columns: [
+                    { data: 'id', orderSequence: ["desc"], },
+                    { data: 'date' },
+                    { data: 'voucher_no' },
+                    { data: 'member.name', className:'text-left' },
+                    { data: 'member.group.area.branch.name' },
+                    { data: 'member.group.area.name' },
+                    { data: 'member.group.name' },
+                    { data: 'pre_balance', orderable:false,searchable:false, className:'text-center' },
+                    { data: 'amount', className:'text-center' },
+                    { data: 'total_balance', orderable:false,searchable:false, className:'text-center' },
+                    { data: 'action', orderable:false,searchable:false },
+                ],
+                "language": {
+                    "searchPlaceholder" : "Search here...",
+                    "paginate": {
+                        "previous": '<i class="fa fa-angle-double-left"></i>',
+                        "next": '<i class="fa fa-angle-double-right"></i>'
+                    }
+                },
             })
         });
 

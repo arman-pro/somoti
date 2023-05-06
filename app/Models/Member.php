@@ -10,6 +10,7 @@ class Member extends Model
 {
     use HasFactory, LogsActivity;
 
+
     protected $fillable = [
         'join_date', 'member_no', 'account', 'name', 'mobile', 'group_id', 'extra_info'
     ];

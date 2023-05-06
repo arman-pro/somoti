@@ -84,9 +84,16 @@
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label for="amount">@lang('Amount')</label>
-                                    <input type="number" name="amount" placeholder="@lang('Amount')" value="{{old('amount')}}" id="amount" class="form-control form-control-sm @error('amount') is-invalid @enderror ">
+                                    <label for="amount">@lang('Amount')*</label>
+                                    <input type="number" name="amount" placeholder="@lang('Amount')" value="{{old('amount')}}" id="amount" class="form-control form-control-sm @error('amount') is-invalid @enderror " required />
                                     @error('amount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="comment">@lang('Comment')</label>
+                                    <textarea name="comment" id="comment" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " cols="30" rows="2" placeholder="@lang('Comment')">{{old('comment')}}</textarea>
+                                    @error('comment')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                         </div>
@@ -146,8 +153,8 @@
         $("#member").on('change', function() {
             var memberId = $(this).val();
             $('#member_detail').html(LOADING_SPINNER);
-            if(!memberId) {
-                $.get("{{route("savings.create")}}?member="+memberId+"", function(res, status) {
+            if(memberId) {
+                $.get("{{route("member.details")}}?member="+memberId+"", function(res, status) {
                     $('#member_detail').html(res);
                 });
             }else {

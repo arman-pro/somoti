@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SavingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
+use App\Models\Member;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,11 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         session()->put('language', $lang);
         return redirect()->route("dashboard");
     })->name("set.locale");
+
+    Route::get('/member-details', function() {
+        $member = Member::findOrFail(request()->member);
+        return view('includes.member', compact("member"));
+    })->name('member.details');
 
     // member module
     Route::resource("member", MemberController::class);
