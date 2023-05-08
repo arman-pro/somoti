@@ -69,6 +69,9 @@ if(!function_exists('saveDateFormat')) {
      * @return Date Y-m-d
      */
     function saveDateFormat($date) {
+        if(!$date) {
+            return null;
+        }
         return date('Y-m-d', strtotime(str_replace('/', '-', $date)));
     }
 }

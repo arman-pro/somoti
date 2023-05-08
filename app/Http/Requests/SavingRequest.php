@@ -25,7 +25,7 @@ class SavingRequest extends FormRequest
     {
         return [
             "date" => ['required', 'date_format:'.filterDateFormat().''],
-            "voucher_no" => ['nullable', 'unique:savings,voucher_no'],
+            "voucher_no" => ['nullable', 'unique:savings,voucher_no,'.optional($this->saving)->id],
             "amount" => ['required', 'numeric'],
             "member_id" => ['required', 'numeric'],
             "comment" => ['nullable'],

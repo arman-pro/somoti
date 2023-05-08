@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Saving;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SavingRequest;
+use App\Models\Branch;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Datatables;
@@ -26,24 +27,44 @@ class SavingController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \Iluuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if(request()->ajax()) {
-            return $this->datatables();
+            return $this->datatables($request);
         }
-        return view($this->v_path . "index");
+        $branches = Branch::select('id', 'name')
+        ->with(['areas:id,name as text,branch_id','areas.groups:id,name as text,area_id','areas.groups.members:id,name as text,group_id'])
+        ->whereIsActive(true)->orderBy('id', 'desc')->get();
+        return view($this->v_path . "index", compact("branches"));
     }
 
-    public function datatables()
+    public function datatables($request)
     {
+        $date = saveDateFormat($request->date);
         $savings = Saving::with([
             'member:id,name,group_id',
             'member.group:id,name,area_id',
             'member.group.area:id,name,branch_id',
             'member.group.area.branch:id,name'
         ])
+        ->when($date, function($query, $date) {
+            return $query->whereDate('date', $date);
+        })
+        ->when($request->branch, function($query)use($request) {
+            return $query->whereRelation('member.group.area.branch', 'id', $request->branch);
+        })
+        ->when($request->area, function($query)use($request) {
+            return $query->whereRelation('member.group.area', 'id', $request->area);
+        })
+        ->when($request->group, function($query)use($request) {
+            return $query->whereRelation('member.group', 'id', $request->group);
+        })
+        ->when($request->member, function($query)use($request) {
+            return $query->whereRelation('member', 'id', $request->member);
+        })
         ->orderBy('id', 'desc');
         $preBalance = 0;
         $tempAmount = 0;
@@ -109,6 +130,9 @@ class SavingController extends Controller
      */
     public function show(Saving $saving)
     {
+        if(request()->ajax()) {
+            return view('json.saving_details', compact('saving'));
+        }
         return view($this->v_path . "view", compact('saving'));
     }
 
@@ -120,19 +144,28 @@ class SavingController extends Controller
      */
     public function edit(Saving $saving)
     {
-        return view($this->v_path . "edit");
+        $members = Member::whereIsActive(true)->orderBy('id', 'desc')->get();
+        return view($this->v_path . "edit", compact("saving", "members"));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\SavingRequest  $request
      * @param  \App\Models\Saving  $saving
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Saving $saving)
+    public function update(SavingRequest $request, Saving $saving)
     {
-        //
+        $data = $request->all();
+        $data['date'] = saveDateFormat($data['date']);
+        // update saving amount
+        $member = $saving->member;
+        $currentWalletAmount = ($member->saving_amount - $saving->amount) + $data['amount'];
+        $saving->member()->update(['saving_amount' => $currentWalletAmount]);
+        $saving->update($data);
+        alert()->success('Update', 'Savings updated succesfully!');
+        return redirectToRoute("savings.index");
     }
 
     /**
@@ -143,6 +176,11 @@ class SavingController extends Controller
      */
     public function destroy(Saving $saving)
     {
-        //
+        $member = $saving->member;
+        $currentWalletAmount = ($member->saving_amount - $saving->amount);
+        $saving->member()->update(['saving_amount' => $currentWalletAmount]);
+        $saving->delete();
+        alert()->success('Deleted', 'Savings deleted succesfully!');
+        return redirectToRoute("savings.index");
     }
 }

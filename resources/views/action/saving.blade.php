@@ -5,7 +5,7 @@
     </button>
     <div class="dropdown-menu" role="menu">
         @can('savings-index')
-            <a class="dropdown-item" href="{{route("savings.show", ['saving' => $saving->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
+            <a class="dropdown-item savings_view" href="javascript:void(0)" data-href="{{route("savings.show", ['saving' => $saving->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
         @endif
         @can('savings-update')
             <a class="dropdown-item" href="{{route('savings.edit', ['saving' => $saving->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>

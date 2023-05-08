@@ -26,4 +26,9 @@ class Group extends Model
         return $this->belongsTo(Area::class);
     }
 
+    public function members()
+    {
+        return $this->hasMany(Member::class);
+    }
+
 }
