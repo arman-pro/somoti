@@ -201,6 +201,7 @@
           </li>
           @endcanany
 
+          @canany(['loanType-index', 'loanType-create'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-donate"></i>
@@ -211,14 +212,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("loanType.index")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Loan Type List')
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("loanType.create")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New Loan Type')
                 </a>
@@ -239,6 +240,7 @@
               </li>
             </ul>
           </li>
+          @endcanany
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', __('FDR Type List'))
+@section('title', __('Loan Type List'))
 
 @section('page-header')
     <!-- Content Header (Page header) -->
@@ -7,14 +7,14 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h4 class="m-0">@lang('FDR Type List')</h4>
+            <h4 class="m-0">@lang('Loan Type List')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
-                <li class="breadcrumb-item active">@lang('FDR Type List')</li>
+                <li class="breadcrumb-item active">@lang('Loan Type List')</li>
             </ol>
             </div>
         </div>
@@ -25,8 +25,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('fdrType-create')
-                        <a href="{{route('fdrtype.create')}}" class="btn btn-sm btn-success">@lang('Add New FDR Type')</a>
+                    @can('loanType-create')
+                        <a href="{{route('loanType.create')}}" class="btn btn-sm btn-success">@lang('Add New Loan Type')</a>
                     @endcan
                 </div>
             </div>
@@ -40,48 +40,48 @@
         <div class="col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">@lang('FDR Type List')</h4>
+                    <h4 class="card-title">@lang('Loan Type List')</h4>
                 </div>
                 <div class="card-body overflow-auto">
-                    <table id="fdrtype_list" class="table table-sm table-striped table-bordered text-center">
+                    <table id="loantype_list" class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
                                 <th>@lang('Name')</th>
                                 <th>@lang('Code')</th>
-                                <th>@lang('Duration Day')</th>
+                                <th>@lang('Repay Day')</th>
                                 <th>@lang('Interest Rate')</th>
                                 <th>@lang('Active Status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($fdrTypes as $fdrType)
-                            <tr>
+                            @forelse ($loanTypes as $loanType)
+                            <tr class="text-center">
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$fdrType->name}}</td>
-                                <td>{{$fdrType->code}}</td>
-                                <td>{{$fdrType->duration}}</td>
-                                <td>{{$fdrType->interest_rate}}</td>
+                                <td>{{$loanType->name}}</td>
+                                <td>{{$loanType->code}}</td>
+                                <td>{{$loanType->day_repay}} @lang('Day')</td>
+                                <td>{{$loanType->interest_rate}}%</td>
                                 <td>
-                                    <x-active-status active-status="{{$fdrType->is_active}}" />
+                                    <x-active-status active-status="{{$loanType->is_active}}" />
                                 </td>
                                 <td class="text-center">
-                                    @canany(['fdrType-index', 'fdrType-create', 'fdrType-update', 'fdrType-destroy'])
+                                    @canany(['loanType-index', 'loanType-create', 'loanType-update', 'loanType-destroy'])
                                     {{-- action button group --}}
                                     <div class="btn-group dropleft">
                                         <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                         @lang('Action') <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" role="menu">
-                                            {{-- @can('fdrType-index')
-                                                <a class="dropdown-item" href="{{route("fdrtype.show", ['fdrtype' => $fdrType->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
+                                            {{-- @can('loanType-index')
+                                                <a class="dropdown-item" href="{{route("loanType.show", ['loanType' => $loanType->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
                                             @endif --}}
-                                            @can('fdrType-update')
-                                                <a class="dropdown-item" href="{{route('fdrtype.edit', ['fdrtype' => $fdrType->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
+                                            @can('loanType-update')
+                                                <a class="dropdown-item" href="{{route('loanType.edit', ['loanType' => $loanType->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
                                             @endcan
-                                            @can('fdrType-destroy')
-                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('fdrtype.destroy', ['fdrtype' => $fdrType->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
+                                            @can('loanType-destroy')
+                                                <button type="button" class="dropdown-item delete_btn" data-href="{{route('loanType.destroy', ['loanType' => $loanType->id])}}"><i class="fas fa-trash"></i> @lang('Delete')</button>
                                             @endcan
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
 @push('js')
     <script>
         $(function () {
-            $("#fdrtype_list").DataTable({
+            $("#loantype_list").DataTable({
                 "columnDefs": [
                     {
                         "targets": -1,

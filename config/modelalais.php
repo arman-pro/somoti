@@ -17,5 +17,6 @@ return [
         'App\Models\Saving' => "Savings",
         'App\Models\Setting' => "Setting",
         'App\Models\User' => "User",
+        'App\Models\LoanType' => "Loan Type",
     ]
 ];
