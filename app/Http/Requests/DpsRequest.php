@@ -17,6 +17,19 @@ class DpsRequest extends FormRequest
     }
 
     /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'member_id' => 'member',
+            'dpstype_id' => 'dps type',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

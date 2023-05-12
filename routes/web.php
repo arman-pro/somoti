@@ -9,6 +9,7 @@ use App\Http\Controllers\FdrController;
 use App\Http\Controllers\FdrTypeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LoanTypeController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RoleController;
@@ -65,6 +66,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
     Route::resource('fdr', FdrController::class);
     // loan type
     Route::resource("loanType", LoanTypeController::class);
+    // loan
+    Route::resource('loan', LoanController::class);
     // group modlue
     Route::resource("group", GroupController::class);
     // area module

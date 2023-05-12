@@ -161,6 +161,12 @@
             </div>
             <!-- /.content -->
         </div>
+        <footer class="main-footer">
+            <strong>Developed By: <a target="_blank" href="https://www.facebook.com/mohammadarman.ali.79">Arman Ali</a>.</strong>
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
 
         {{-- view Modal --}}
         <div class="modal fade bd-example-modal-lg" id="view_modal" tabindex="-1" role="dialog"

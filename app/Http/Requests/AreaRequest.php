@@ -17,6 +17,18 @@ class AreaRequest extends FormRequest
     }
 
     /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'branch_id' => 'branch',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

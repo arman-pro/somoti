@@ -17,6 +17,19 @@ class FdrRequest extends FormRequest
     }
 
     /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'member_id' => 'member',
+            'fdrtype_id' => 'fdr type',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array

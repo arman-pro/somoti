@@ -3,17 +3,16 @@
  * Global helper file
  */
 
-use Illuminate\Http\Request as HttpRequest;
 
 if(!function_exists('fileUpdaload')) {
     /**
      * store uploaded file from the client
-     * @param  \Illuminate\Http\Request  $request
+     * @param mix $request
      * @param string $fileName uploaded file name
      * @param string $path uplode directory path
      * @return string uploaded file new name
      */
-    function fileUpload(HttpRequest $request, $fileName, $path) {
+    function fileUpload($request, $fileName, $path) {
         $newName = substr(rand(), 0, 8) . "_" . date("d_m_y") . "." . $request->$fileName->getClientOriginalExtension();
         $request->$fileName->storeAs($path, $newName);
         return $newName;

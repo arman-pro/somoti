@@ -17,6 +17,18 @@ class GroupRequest extends FormRequest
     }
 
     /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'area_id' => 'area',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
