@@ -10,6 +10,8 @@ use App\Models\LoanType;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Datatables;
+use Illuminate\Support\Facades\Blade;
 
 class LoanController extends Controller
 {
@@ -32,7 +34,35 @@ class LoanController extends Controller
      */
     public function index()
     {
+        if(request()->ajax()) {
+            return $this->loan_list();
+        }
         return view($this->v_path . "index");
+    }
+
+    public function loan_list() {
+        $loans = Loan::with(['member:id,name', 'loanType:id,name'])
+        ->orderBy('id', 'desc');
+        return DataTables()->eloquent($loans)
+        ->only(['id', 'date', 'interest', 'member.name', 'loan_type.name', 'status', 'action', 'amount', 'total_amount_payable'])
+        ->editColumn('date', function (Loan $loan) {
+            return printDateFormat($loan->date);
+        })
+        ->editColumn('interest', '{{$interest}}%')
+        ->editColumn('status', function (Loan $loan) {
+            return Blade::render('<x-active-status
+                active-status="'.$loan->is_paid.'"
+                on-message="'.__('Paid').'"
+                off-message="'.__('Running').'"
+                on-type="danger"
+                off-type="success"
+            />');
+        })
+        ->addColumn('action', function (Loan $loan) {
+            return view('action.loan', compact('loan'));
+        })
+        ->rawColumns(['action', 'status'])
+        ->toJson();
     }
 
     /**

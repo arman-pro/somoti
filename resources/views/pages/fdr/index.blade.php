@@ -117,7 +117,7 @@
                         "next": '<i class="fa fa-angle-double-right"></i>'
                     }
                 },
-            })
+            });
         });
 
         $(document).ready(function(){

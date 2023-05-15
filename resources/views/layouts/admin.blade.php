@@ -8,7 +8,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="name" content="Microfinace Software,Somoti Software,Laravel Software, Bd Software" />
+    <meta name="developer" content="Arman Ali" />
+    <meta name="developer_email" content="arman.dev083@gmail.com" />
+    <meta name="csrf_token" content="{{csrf_token()}}" />
     <title>
         @hasSection('title')
             @yield('title') -
