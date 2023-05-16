@@ -66,6 +66,7 @@ class LoanRequest extends FormRequest
             'check_number' => ['nullable', 'string'],
             'file_upload' => ['nullable', "mimes:jpg,png,pdf", "max:1000"],
             'security_docs' => ['nullable', "mimes:jpg,png,pdf", "max:1000"],
+            'comment' => ['nullable', 'max:1000'],
         ];
     }
 }

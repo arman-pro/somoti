@@ -11,7 +11,7 @@ class Installment extends Model
     use HasFactory, LogsActivity;
 
     protected $fillable = [
-        'installmentable_type', 'installmentable_id', 'date', 'amount', 'payable_date', 'payable_amount', 'received_by', 'is_paid'
+        'installment_no', 'installmentable_type', 'installmentable_id', 'date', 'amount', 'payable_date', 'payable_amount', 'received_by', 'is_paid'
     ];
 
     protected static $logAttributes = ['*'];
@@ -19,6 +19,11 @@ class Installment extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "Installment has been {$eventName}";
+    }
+
+    public function receivedBy()
+    {
+        return $this->belongsTo(User::class, 'received_by');
     }
 
 }

@@ -18,7 +18,9 @@
                 @can('loan-destroy')
                     <button
                         type="button" class="dropdown-item delete_btn"
-                        data-href="{{ route('loan.destroy', ['loan' => $loan->id]) }}">
+                        data-href="{{ route('loan.destroy', ['loan' => $loan->id]) }}"
+                        data-id="{{$loan->id}}"
+                    >
                         <i class="fas fa-trash"></i> @lang('Delete')
                     </button>
             @endcan

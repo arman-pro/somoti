@@ -106,3 +106,25 @@ if(!function_exists('SavingVchGenerate')) {
         return "$prefix-001";
     }
 }
+
+
+if(!function_exists('generateInstallmentNo')) {
+    /**
+     * generate a unique installment no
+     * @return string unique installment no
+     */
+    function generateInstallmentNo($prefix='IN'){
+        $lastSavings = \App\Models\Installment::select('installment_no')->where('installment_no', 'LIKE', $prefix . '%')->orderBy('id', 'desc')->first();
+        if($lastSavings) {
+            $installment_no = str_replace("$prefix-", '', $lastSavings->installment_no);
+            if($installment_no < 9) {
+                return "$prefix-00" . ($installment_no + 1);
+            }
+            if($installment_no < 99) {
+                return "$prefix-0" . ($installment_no + 1);
+            }
+            return "$prefix-" . ($installment_no + 1);
+        }
+        return "$prefix-001";
+    }
+}

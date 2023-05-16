@@ -35,7 +35,7 @@
                 </tr>
                 <tr>
                     <th>@lang('Savings Amount')</th>
-                    <td>{{$member->saving_amount ?? "0.00"}}</td>
+                    <td>{{number_format($member->saving_amount ?? 0, 2)}}</td>
                 </tr>
             </tbody>
         </table>

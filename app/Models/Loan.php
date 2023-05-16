@@ -13,7 +13,7 @@ class Loan extends Model
     protected $fillable = [
         'date', 'mobile', 'amount', 'interest', 'total_amount_payable', 'installment_amount', 'installment_number',
         'insurence_amount', 'loan_fee', 'loan_start_date', 'loan_end_date', 'loantype_id', 'member_id', 'refer_user_id',
-        'refer_member_id', 'extra_info',
+        'refer_member_id', 'extra_info', 'comment',
     ];
 
     protected static $logAttributes = ['*'];
@@ -53,5 +53,13 @@ class Loan extends Model
     public function refMember()
     {
         return $this->belongsTo(Member::class, 'refer_member_id');
+    }
+
+    /**
+     * installments
+     */
+    public function installmentable()
+    {
+        return $this->morphMany(Installment::class, 'installmentable');
     }
 }

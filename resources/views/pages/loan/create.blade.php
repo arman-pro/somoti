@@ -303,6 +303,14 @@
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="comment">@lang('Comment')</label>
+                            <textarea name="comment" id="comment" cols="30" rows="4" class="form-control" placeholder="@lang('Comment')"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
                     <div class="card-footer">
                         <button class="btn btn-sm btn-success" type="submit">@lang('Save')</button>
                     </div>
