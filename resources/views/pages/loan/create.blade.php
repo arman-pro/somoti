@@ -38,7 +38,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <form action="{{route('loan.store')}}" method="post">
+            <form action="{{route('loan.store')}}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -400,6 +400,21 @@
             var fileName = e.target.files[0].name;
             var parent = $(this).parent();
             parent.find('label').html(fileName);
+        });
+        // installment_number
+        // installment_amount
+        $(document).on('input', '#installment_number', function() {
+            let total_amount_payable = $('#total_amount_payable').val();
+            let total_installment = $('#installment_number').val();
+            let per_installment = (total_amount_payable / total_installment) || 0;
+            $("#installment_amount").val(Math.ceil(per_installment));
+        });
+
+        $(document).on('input', '#installment_amount', function() {
+            let total_amount_payable = $('#total_amount_payable').val();
+            let installment_amount = $('#installment_amount').val();
+            let per_installment = (total_amount_payable / installment_amount) || 0;
+            $("#installment_number").val(Math.ceil(per_installment));
         });
 
     });

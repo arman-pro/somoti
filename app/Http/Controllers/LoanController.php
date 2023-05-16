@@ -110,7 +110,7 @@ class LoanController extends Controller
         }
 
         $data['extra_info'] = json_encode($extra_info);
-        Loan::create($data);
+        $loan = Loan::create($data);
         alert()->success("Created", 'Loan created successfull!');
         return redirectToRoute("loan.index");
     }
@@ -123,7 +123,8 @@ class LoanController extends Controller
      */
     public function show(Loan $loan)
     {
-        return view($this->v_path . "view", compact('loan'));
+        $extra_info = json_decode($loan->extra_info);
+        return view($this->v_path . "view", compact('loan', 'extra_info'));
     }
 
     /**

@@ -23,13 +23,35 @@ class Loan extends Model
         return "Loan Type has been {$eventName}";
     }
 
+    /**
+     * member
+     */
     public function member()
     {
         return $this->belongsTo(Member::class);
     }
 
+    /**
+     * loan type
+     */
     public function loanType()
     {
         return $this->belongsTo(LoanType::class, 'loantype_id');
+    }
+
+    /**
+     * refer user
+     */
+    public function refUser()
+    {
+        return $this->belongsTo(User::class, 'refer_user_id');
+    }
+
+    /**
+     * refer member
+     */
+    public function refMember()
+    {
+        return $this->belongsTo(Member::class, 'refer_member_id');
     }
 }
