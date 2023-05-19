@@ -29,15 +29,20 @@ trait PermissionTrait {
     public function other_permission_list() {
 
         return [
+            'collection' => [
+                'Loan Collection' => 'loan-collection',
+                'Group Wise Collection' => 'group-wise-collection',
+                'Savings Collection' => 'savings-collection',
+                'DPS Collection' => 'dps-collection',
+                'FDR Collection' => 'fdr-collection',
+            ],
             'report' => [
-                ['user'],
+                'User Report' => 'user-report',
             ],
             'miscellaneous' => [
-                [
-                    'General Setting' => 'general_setting',
-                    'Backup Database' => 'database_backup',
-                    'Activity Log' => 'activity_log'
-                ]
+                'General Settings' => 'general_setting',
+                'Backup Database' => 'database_backup',
+                'Activity Log' => 'activity_log',
             ],
         ];
     }

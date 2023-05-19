@@ -30,7 +30,7 @@
 {{-- main content --}}
 @section('content')
     <div class="row">
-        <div class="col-md-12 col-sm-12">
+        <div class="col-md-8 col-sm-12 m-auto">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">User Role</h4>
@@ -63,15 +63,15 @@
                         @csrf
                         @method('PUT')
                         <div class="row">
-                            <div class="col-md-10 col-sm-12">
+                            <div class="col-md-8 col-sm-12">
                                 <div class="form-group">
-                                    <input type="text" name="name" value="{{$role_->name}}" class="form-control" placeholder="Role"/>
+                                    <input type="text" name="name" value="{{$role_->name}}" class="form-control form-control-sm" placeholder="Role"/>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-outline-success" value="Update"/>&nbsp;
-                                    <a href="{{route('roles.index')}}" class="btn btn-outline-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-sm btn-outline-success" value="Update"/>&nbsp;
+                                    <a href="{{route('roles.index')}}" class="btn btn-sm btn-outline-danger">Cancel</a>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                     {{-- role table  --}}
                     <table class="table table-sm table-striped w-80 m-auto">
                         <thead>
-                            <tr class="text-center">
+                            <tr>
                                 <th>Name</th>
                                 <th>Action</th>
                             </tr>
@@ -96,7 +96,7 @@
 
                             @foreach ($roles as $role)    
                                                      
-                            <tr class="text-center">
+                            <tr>
                                 {{-- hidden delete form --}}
                                 <form action="{{route('roles.destroy', ['role' => $role->id])}}" id="destroy-{{$role->id}}" method="post">
                                     @csrf @method('DELETE')
@@ -107,7 +107,7 @@
                                 <td>
                                     {{-- action button group --}}
                                     <div class="btn-group dropleft">
-                                        <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                        <button type="button" class="btn btn-xs btn-outline-dark dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                         Action <span class="sr-only">Toggle Dropdown</span>
                                         </button>
                                         <div class="dropdown-menu" role="menu">

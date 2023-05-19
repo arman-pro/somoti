@@ -29,7 +29,7 @@ class RoleController extends Controller
             $edit = true;
             $roles = Role::all();
             $role_ = Role::find($request->role);
-            return view('pages.role.index', compact('roles', 'role_', 'edit'));
+            return view('pages.admin.role.index', compact('roles', 'role_', 'edit'));
         }
         $edit = false;
         $roles = Role::all();

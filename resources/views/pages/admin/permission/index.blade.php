@@ -37,13 +37,14 @@
             {{-- permission form --}}
             <form action="{{route('permission', ['role' => $role])}}" method="post">
                 @csrf
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Assign Role Permission - (<b><u>{{$role->name}}</u></b>)</h4>
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Assign Role Permission - (<b><u>{{$role->name}}</u></b>)</h4>
+                    </div>
                 </div>
-                <div class="card-body">
-                   
-                        <table class="table table-striped">
+                <div class="card">                
+                    <div class="card-body overflow-auto">                   
+                        <table class="table table-sm table-striped">
                             <thead>
                                 <tr class="text-center">
                                     <th>Module</th>
@@ -66,8 +67,8 @@
                                             id="{{$item . '-checked'}}"
                                             data-item="{{$item}}"
                                             data-toggle="toggle" data-size="small"
-                                            data-onstyle="success"                                               
-                                            data-offstyle="warning"   
+                                            data-onstyle="success"                                      
+                                            data-offstyle="warning"
                                             @if(in_array(
                                                 $item.'-index', $permissions) && 
                                                 in_array($item.'-create', $permissions) && 
@@ -130,59 +131,53 @@
                                 </tr>
                                 @endforeach
                             </tbody>
-                        </table>
-                       <hr/>
-                        <table class="table table-striped">
-                            <tbody class="text-center">
-                                @foreach ($other_permissions as $key => $sub_permissions)
-                                    @foreach ($sub_permissions as $sub_sub_permissions)
-                                    <tr>
-                                        <td>{{ucfirst($key)}}</td>
-                                        @foreach ($sub_sub_permissions as $sub_key => $sub_sub_permission)
-                                            @if(!empty($sub_sub_permission))
-                                                <td>
-                                                    @if(is_string($sub_key))
-                                                        {{$sub_key}}
-                                                    @else
-                                                        {{ucfirst(str_replace("_", " ", $sub_sub_permission))}} {{ucfirst($key)}}
-                                                    @endif
-                                                </td>
-                                            @else
-                                                <td>&nbsp;</td>
-                                            @endif
-                                        @endforeach
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        @foreach ($sub_sub_permissions as $sub_key => $sub_sub_permission)
-                                            @if(!empty($sub_sub_permission))
-                                                <td>
+                        </table>                     
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <th>Module Name</th>
+                                    <th>Permission List</th>
+                                </tr>
+                                @foreach($other_permissions as $key => $sub_permissions)
+                                <tr>
+                                    <td style="width:150px;padding:20px;">{{ucfirst($key)}}</td>
+                                    <td>
+                                        <div class="d-flex flex-row">
+                                            @foreach($sub_permissions as $sub_key => $permission_name)
+                                            <div class="d-flex flex-column p-3">
+                                                <span class="pb-1">{{ucfirst($sub_key)}}</span>
+                                                <span>
                                                     <input 
                                                         type="checkbox" 
-                                                        name="{{'permission['.$key.'][]'}}" 
-                                                        value="{{$key.'-'.$sub_sub_permission}}"
+                                                        name="{{'permission['.$permission_name.'][]'}}" 
+                                                        value="{{$permission_name}}"
+                                                        id="{{$permission_name}}"
                                                         data-toggle="toggle" data-size="small"
                                                         data-onstyle="success"                                               
-                                                        data-offstyle="warning"   
-                                                        @if(in_array($key.'-'.$sub_sub_permission, $permissions)) checked @endif  
-                                                    />
-                                                </td>
-                                            @else 
-                                                <td>&nbsp;</td>
-                                            @endif
-                                        @endforeach
-                                    </tr>
-                                    @endforeach                                    
+                                                        data-offstyle="warning"
+                                                        @if(in_array($permission_name, $permissions)) checked @endif
+                                                    /> 
+                                                </span>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </td>
+                                </tr>
                                 @endforeach
-                               
                             </tbody>
                         </table>
-
+                    </div>
                 </div>
-                <div class="card-footer text-right">
-                    <button type="submit" class="btn btn-dark">Save Permission</button>
+                <div class="card">
+                    <div class="card-body">
+                        <button type="submit" class="btn btn-dark">@lang('Save')</button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>

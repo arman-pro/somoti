@@ -246,6 +246,7 @@
           </li>
           @endcanany
 
+          @canany(['loan-collection', 'group-wise-collection', 'savings-collection', 'dps-collection', 'fdr-collection'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-money-check"></i>
@@ -255,41 +256,53 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('loan-collection')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Loan Collection')
                 </a>
               </li>
+              @endcan
 
+              @can('group-wise-collection')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Group Wise Collection')
                 </a>
               </li>
+              @endcan
 
+              @can('savings-collection')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Savings Collection')
                 </a>
               </li>
+              @endcan
 
+              @can('dps-collection')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('DPS Collection')
                 </a>
               </li>
+              @endcan
+
+              @can('fdr-collection')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('FDR Collection')
                 </a>
               </li>
+              @endcan
             </ul>
           </li>
+          @endcanany
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
