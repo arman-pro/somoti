@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DpsController;
 use App\Http\Controllers\DpsTypeController;
 use App\Http\Controllers\FdrController;
@@ -68,6 +69,16 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
     Route::resource("loanType", LoanTypeController::class);
     // loan
     Route::resource('loan', LoanController::class);
+
+    /**
+     * loan collection
+     */
+    Route::prefix('collection')->name('collection.')->group(function () {
+        Route::get('loan', [CollectionController::class, 'loanCollection'])->name('loan');
+        Route::post('loan', [CollectionController::class, 'storeLoanCollection'])->name('loan.store');
+    });
+
+
     // group modlue
     Route::resource("group", GroupController::class);
     // area module

@@ -48,7 +48,7 @@
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
                                 <th>@lang('Date')</th>
-                                <th>@lang('Member')</th>
+                                <th>@lang('Member') (@lang('Member No.'))</th>
                                 <th>@lang('Loan Type')</th>
                                 <th>@lang('Loan Amount')</th>
                                 <th>@lang('Interest')</th>

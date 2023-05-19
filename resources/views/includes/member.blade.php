@@ -1,6 +1,16 @@
-<div class="card">
+<div class="card @if(isset($collapsed) && $collapsed) collapsed-card @else expanded-card @endif">
     <div class="card-header">
         <h4 class="card-title">@lang('Member Details')</h4>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                @if(isset($collapsed) && $collapsed)
+                    <i class="fas fa-minus"></i>
+                @else 
+                    <i class="fas fa-plus"></i>
+                @endif
+                
+            </button>
+        </div>
     </div>
     <div class="card-body">
         <table class="table table-sm table-bordered">

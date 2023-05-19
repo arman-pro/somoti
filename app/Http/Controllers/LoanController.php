@@ -42,7 +42,7 @@ class LoanController extends Controller
     }
 
     public function loan_list() {
-        $loans = Loan::with(['member:id,name', 'loanType:id,name'])
+        $loans = Loan::with(['member:id,name,member_no', 'loanType:id,name'])
         ->orderBy('id', 'desc');
         return DataTables()->eloquent($loans)
         ->only(['id', 'date', 'interest', 'member.name', 'loan_type.name', 'status', 'action', 'amount', 'total_amount_payable'])
@@ -58,6 +58,9 @@ class LoanController extends Controller
                 on-type="danger"
                 off-type="success"
             />');
+        })
+        ->editColumn('member.name', function (Loan $loan) {
+            return optional($loan->member)->name . ' (' .optional($loan->member)->member_no . ')';
         })
         ->addColumn('action', function (Loan $loan) {
             return view('action.loan', compact('loan'));

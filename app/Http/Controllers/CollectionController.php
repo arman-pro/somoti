@@ -3,10 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Loan;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class CollectionController extends Controller
 {
+    protected string $v_path = 'pages.collection';
+
+    // set permission
+    public function __construct()
+    {
+        $this->middleware('permission:loan-collection', ['only' => ['loanCollection']]);
+    }
+
+    /**
+     * get loan collection
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function loanCollection(Request $request)
+    {
+        $search = $request->search ?? false;
+        $loan = null;
+        if($request->member) {
+            $loan = Loan::with(['installmentable', 'member', 'loanType'])->where('member_id', $request->member)->latest()->first();
+        }
+        $members = Member::select('id', 'name as text')->whereIsActive(true)->get();
+        return view($this->v_path . '.loan', compact('members', 'search', 'loan'));
+    }
+
+    /**
+     * store loan collection
+     * @return \Illuminate\Http\Request $request
+     */
+    public function storeLoanCollection(Request $request) {
+        dd($request->all());
+    }
+
     /**
      * Display a listing of the resource.
      *
