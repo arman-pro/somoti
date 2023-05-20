@@ -11,7 +11,7 @@ class Dps extends Model
     use HasFactory, LogsActivity;
 
     protected $fillable = [
-        "date", "member_id", "dpstype_id", "account","amount_per_installment", "number_of_installment", "start_date", "expire_date",
+        "dps_id", "date", "member_id", "dpstype_id", "account","amount_per_installment", "number_of_installment", "start_date", "expire_date",
         "fine_missing_dps", "profit", "total_amount", "is_matured", "comment",
     ];
 

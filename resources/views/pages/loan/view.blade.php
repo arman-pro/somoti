@@ -90,8 +90,16 @@
                                 <td>
                                     <b>@lang('Loan End Date'):</b> {{printDateFormat($loan->loan_end_date)}}
                                 </td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>                               
+                                <td>
+                                    <b>@lang('Paid Amount'):</b> {{$loan->paid_amount ?? 0.00}}
+                                </td>
+                                <td>
+                                    <b>@lang('Paid Status'):</b> <x-active-status 
+                                        active-status="{{$loan->is_paid}}" 
+                                        off-message="Due"
+                                        on-message="Paid"
+                                    />
+                                </td>                                
                             </tr>
                         </tbody>
                     </table>

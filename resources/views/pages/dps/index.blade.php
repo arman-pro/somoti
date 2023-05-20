@@ -47,6 +47,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
+                                <th>@lang('DPS Id')</th>
                                 <th>@lang('Date')</th>
                                 <th>@lang('Member') @lang('Name')</th>
                                 <th>@lang('Member ID')</th>
@@ -100,6 +101,7 @@
                 ajax: '{{route("dps.index")}}',
                 columns: [
                     { data: 'id', orderSequence: ["desc"], },
+                    { data: 'dps_id' },
                     { data: 'date' },
                     { data: 'member.name', className:'text-left' },
                     { data: 'member.member_no', className:'text-left' },

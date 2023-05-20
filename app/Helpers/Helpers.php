@@ -128,3 +128,24 @@ if(!function_exists('generateInstallmentNo')) {
         return "$prefix-001";
     }
 }
+
+if(!function_exists('generateDpsId')) {
+    /**
+     * generate a unique dps id
+     * @return string unique dps id
+     */
+    function generateDpsId($prefix='DPS'){
+        $lastDps = \App\Models\Dps::select('dps_id')->where('dps_id', 'LIKE', $prefix . '%')->orderBy('id', 'desc')->first();
+        if($lastDps) {
+            $dps_id = str_replace("$prefix-", '', $lastDps->dps_id);
+            if($dps_id < 9) {
+                return "$prefix-00" . ($dps_id + 1);
+            }
+            if($dps_id < 99) {
+                return "$prefix-0" . ($dps_id + 1);
+            }
+            return "$prefix-" . ($dps_id + 1);
+        }
+        return "$prefix-001";
+    }
+}

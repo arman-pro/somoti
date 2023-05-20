@@ -274,6 +274,15 @@
               </li>
               @endcan
 
+              @can('dps-collection')
+              <li class="nav-item">
+                <a href="{{route('collection.dps')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('DPS Collection')
+                </a>
+              </li>
+              @endcan
+
               @can('savings-collection')
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -281,16 +290,7 @@
                   @lang('Savings Collection')
                 </a>
               </li>
-              @endcan
-
-              @can('dps-collection')
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('DPS Collection')
-                </a>
-              </li>
-              @endcan
+              @endcan            
 
               @can('fdr-collection')
               <li class="nav-item">

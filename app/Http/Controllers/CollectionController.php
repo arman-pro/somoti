@@ -11,7 +11,7 @@ use DB;
 
 class CollectionController extends Controller
 {
-    protected string $v_path = 'pages.collection';
+    protected string $v_path = 'pages.collection.';
 
     // set permission
     public function __construct()
@@ -32,7 +32,7 @@ class CollectionController extends Controller
             $loan = Loan::with(['installmentable', 'member', 'loanType'])->where('member_id', $request->member)->latest()->first();
         }
         $members = Member::select('id', 'name as text')->whereIsActive(true)->get();
-        return view($this->v_path . '.loan', compact('members', 'search', 'loan'));
+        return view($this->v_path . 'loan', compact('members', 'search', 'loan'));
     }
 
     /**
@@ -74,6 +74,11 @@ class CollectionController extends Controller
         }
         alert()->success("Ok!", 'Loan taken successfull!');
         return redirectToRoute("collection.loan");
+    }
+
+    public function dps()
+    {
+        return view($this->v_path . 'dps');
     }
 
     /**

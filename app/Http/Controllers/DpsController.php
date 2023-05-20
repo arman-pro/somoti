@@ -92,6 +92,7 @@ class DpsController extends Controller
         $data['start_date']     = saveDateFormat($data['start_date']);
         $data['expire_date']    = saveDateFormat($data['expire_date']);
         $data['date']           = saveDateFormat($data['date']);
+        $data['dps_id']         = generateDpsId();
         Dps::create($data);
         alert()->success('Created', 'DPS created succesfully!');
         return redirectToRoute("dps.index");

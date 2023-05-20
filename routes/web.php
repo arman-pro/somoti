@@ -75,6 +75,7 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
     Route::prefix('collection')->name('collection.')->group(function () {
         Route::get('loan', [CollectionController::class, 'loanCollection'])->name('loan');
         Route::post('loan/{loan}', [CollectionController::class, 'storeLoanCollection'])->name('loan.store');
+        Route::get('dps', [CollectionController::class, 'dps'])->name('dps');
     });
 
 
