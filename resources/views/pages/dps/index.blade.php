@@ -47,7 +47,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th>@lang('SL')</th>
-                                <th>@lang('DPS Id')</th>
+                                <th>@lang('DPS ID')</th>
                                 <th>@lang('Date')</th>
                                 <th>@lang('Member') @lang('Name')</th>
                                 <th>@lang('Member ID')</th>

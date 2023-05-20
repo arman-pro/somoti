@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dps;
 use App\Models\Installment;
 use App\Models\Loan;
 use App\Models\Member;
@@ -76,9 +77,18 @@ class CollectionController extends Controller
         return redirectToRoute("collection.loan");
     }
 
-    public function dps()
+    /**
+     * get dps view
+     * @return Illuminate\Http\Response
+     */
+    public function dps(Request $request)
     {
-        return view($this->v_path . 'dps');
+        $search = $request->search ?? false;
+        $dps = null;
+        if($request->dps_id) {
+            $dps = Dps::where('dps_id', $request->dps_id)->first();
+        }
+        return view($this->v_path . 'dps', compact('dps', 'search'));
     }
 
     /**

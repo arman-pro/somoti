@@ -144,21 +144,21 @@
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="fine_missing_dps">@lang('Fine Missing DPS')*</label>
-                                    <input type="number" name="fine_missing_dps" placeholder="@lang('Fine Missing DPS')" value="{{old('fine_missing_dps')}}" id="fine_missing_dps" class="form-control form-control-sm @error('fine_missing_dps') is-invalid @enderror " required/>
+                                    <input type="number" name="fine_missing_dps" min="0" step="any" placeholder="@lang('Fine Missing DPS')" value="{{old('fine_missing_dps')}}" id="fine_missing_dps" class="form-control form-control-sm @error('fine_missing_dps') is-invalid @enderror " required/>
                                     @error('fine_missing_dps')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="profit">@lang('Profit')*</label>
-                                    <input type="number" name="profit" placeholder="@lang('Profit')" value="{{old('profit')}}" id="profit" class="form-control form-control-sm @error('profit') is-invalid @enderror " required/>
+                                    <input type="number" name="profit" min="0" step="any" placeholder="@lang('Profit')" value="{{old('profit')}}" id="profit" class="form-control form-control-sm @error('profit') is-invalid @enderror " required/>
                                     @error('profit')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="total_amount">@lang('Total Amount')*</label>
-                                    <input type="number" name="total_amount" placeholder="@lang('Total Amount')" value="{{old('total_amount')}}" id="total_amount" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " required/>
+                                    <input type="number" name="total_amount" min="0" step="any" placeholder="@lang('Total Amount')" value="{{old('total_amount')}}" id="total_amount" class="form-control form-control-sm @error('total_amount') is-invalid @enderror " required/>
                                     @error('total_amount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>

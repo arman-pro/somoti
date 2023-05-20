@@ -101,8 +101,58 @@
                 <div class="card-header">
                     <h4 class="card-title">@lang('DPS Installment')</h4>
                 </div>
-                <div class="card-body">
-
+                <div class="card-body overflow-auto">
+                    <table class="table table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th>@lang('SL')</th>
+                                <th>@lang('Installment No')</th>
+                                <th>@lang('Date')</th>
+                                <th>@lang('Amount')</th>
+                                <th>@lang('Paid Date')</th>
+                                <th>@lang('Paid Amount')</th>
+                                <th>@lang('Paid Status')</th>
+                                <th>@lang('Received By')</th>
+                            </tr>
+                        </thead>
+                        @forelse ($dps->installmentable as $installment)
+                            <tr rowspan="{{$installment->note ? 1 : 0}}" >
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$installment->installment_no}}</td>
+                                <td>{{printDateFormat($installment->date)}}</td>
+                                <td>{{number_format($installment->amount, 2)}}</td>
+                                <td>
+                                    @if($installment->paid_date)
+                                        {{printDateFormat($installment->paid_date)}}
+                                    @else 
+                                        N/A
+                                    @endif
+                                </td>
+                                <td>{{$installment->paid_amount ?? "N/A"}}</td>
+                                <td>
+                                    <x-active-status 
+                                        active-status="{{$installment->is_paid}}" 
+                                        off-message="Due"
+                                        on-message="Paid"
+                                    />
+                                </td>
+                                <td>
+                                    @if($installment->received_by)
+                                        {{optional($installment->receivedBy)->name}}
+                                    @else 
+                                        N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            @if($installment->note)
+                            <tr>
+                                <td class="text-left" colspan="7"><b>Note:</b> {{$installment->note ?? "N/A"}}</td>
+                            </tr>
+                            @endif
+                        @empty
+                            
+                        @endforelse
+                    </table>
                 </div>
             </div>
         </div>

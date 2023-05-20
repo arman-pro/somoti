@@ -142,7 +142,6 @@
             <div class="col-md-12 col-sm-12">
                 <form action="{{route('collection.loan.store', ['loan' => $loan->id])}}" id="loan-store" method="post">
                     @csrf
-
                     @foreach ($errors->all() as $message)
                         <div class="alert alert-danger">{{$message}}</div>
                     @endforeach

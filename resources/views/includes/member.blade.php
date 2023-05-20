@@ -51,6 +51,10 @@
                     <th>@lang('Loan Amount')</th>
                     <td>{{number_format($member->loan_amount ?? 0, 2)}}</td>
                 </tr>
+                <tr>
+                    <th>@lang('DPS Amount')</th>
+                    <td>{{number_format(($member->dps_deposit - $member->dps_withdraw) ?? 0, 2)}}</td>
+                </tr>
             </tbody>
         </table>
     </div>

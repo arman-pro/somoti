@@ -10,6 +10,8 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use Datatables;
 use Illuminate\Support\Facades\Blade;
+use DB;
+use Exception;
 
 class DpsController extends Controller
 {
@@ -93,8 +95,28 @@ class DpsController extends Controller
         $data['expire_date']    = saveDateFormat($data['expire_date']);
         $data['date']           = saveDateFormat($data['date']);
         $data['dps_id']         = generateDpsId();
-        Dps::create($data);
-        alert()->success('Created', 'DPS created succesfully!');
+
+        DB::beginTransaction();
+        try {
+            $dps = Dps::create($data);
+            $installment_amount = $dps->amount_per_installment;
+            $installment_date = $dps->start_date;
+            $total_installment = $dps->number_of_installment;
+            for ($i=0; $i < $total_installment; $i++) { 
+                $dps->installmentable()->create([
+                    'installment_no' => generateInstallmentNo(),
+                    'date' => $installment_date,
+                    'amount' => $installment_amount,
+                ]);
+                $installment_date_num = strtotime('+30 days' , strtotime($installment_date));
+                $installment_date = date('Y-m-d', $installment_date_num);
+            }
+            DB::commit();
+            alert()->success('Created', 'DPS created succesfully!');
+        }catch(\Exception $e) {
+            DB::rollback();
+            alert()->error('Error', 'Something went worng!');
+        }
         return redirectToRoute("dps.index");
     }
 
@@ -137,9 +159,34 @@ class DpsController extends Controller
         $data['start_date']     = saveDateFormat($data['start_date']);
         $data['expire_date']    = saveDateFormat($data['expire_date']);
         $data['date']           = saveDateFormat($data['date']);
+
         $dps = Dps::findOrFail($dp);
-        $dps->update($data);
-        alert()->success('Updated', 'DPS updated succesfully!');
+        
+        DB::beginTransaction();
+        try {
+            $dps->update($data);
+
+            $installment_amount = $dps->amount_per_installment;
+            $installment_date = $dps->start_date;
+            $total_installment = $dps->number_of_installment;
+
+            $dps->installmentable()->delete();
+
+            for ($i=0; $i < $total_installment; $i++) { 
+                $dps->installmentable()->create([
+                    'installment_no' => generateInstallmentNo(),
+                    'date' => $installment_date,
+                    'amount' => $installment_amount,
+                ]);
+                $installment_date_num = strtotime('+30 days' , strtotime($installment_date));
+                $installment_date = date('Y-m-d', $installment_date_num);
+            }
+            DB::commit();
+            alert()->success('Updated', 'DPS updated succesfully!');
+        }catch(Exception $e) {
+            DB::rollback();
+            alert()->error('Error', 'Something went worng!');
+        }
         return redirectToRoute("dps.index");
     }
 
@@ -152,8 +199,17 @@ class DpsController extends Controller
     public function destroy($dp)
     {
         $dps = Dps::findOrFail($dp);
-        $dps->delete();
-        alert()->success('Deleted', 'DPS deleted succesfully!');
+        DB::beginTransaction();
+        try{
+            $dps->installmentable()->delete();
+            $dps->delete();
+            DB::commit();
+            alert()->success('Deleted', 'DPS deleted succesfully!');
+        }catch(\Exception $e) {
+            DB::rollback();
+            alert()->error('Error', 'Something went worng!');
+        }
+        
         return redirectToRoute("dps.index");
     }
 }

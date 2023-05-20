@@ -35,4 +35,9 @@ class Dps extends Model
     {
         return $this->belongsTo(DpsType::class, 'dpstype_id');
     }
+
+    public function installmentable()
+    {
+        return $this->morphMany(Installment::class, 'installmentable');
+    }
 }
