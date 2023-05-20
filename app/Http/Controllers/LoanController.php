@@ -118,6 +118,10 @@ class LoanController extends Controller
         DB::beginTransaction();
         try {
             $loan = Loan::create($data);
+
+            $loan->member()->update([
+                'loan_amount' => $loan->total_amount_payable
+            ]);
             /**
              * total installments create
              */

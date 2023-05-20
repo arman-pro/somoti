@@ -117,8 +117,16 @@
                                     <td>
                                         <b>@lang('Loan End Date'):</b> {{printDateFormat($loan->loan_end_date)}}
                                     </td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>                               
+                                    <td>
+                                        <b>@lang('Paid Amount'):</b> {{$loan->paid_amount ?? 0.00}}
+                                    </td>
+                                    <td>
+                                        <b>@lang('Paid Status'):</b> <x-active-status 
+                                            active-status="{{$loan->is_paid}}" 
+                                            off-message="Due"
+                                            on-message="Paid"
+                                        />
+                                    </td>                               
                                 </tr>
                             </tbody>
                         </table>
@@ -132,8 +140,12 @@
         {{-- installment --}}
         <div class="row">
             <div class="col-md-12 col-sm-12">
-                <form action="{{route('collection.loan.store')}}" method="post">
+                <form action="{{route('collection.loan.store', ['loan' => $loan->id])}}" id="loan-store" method="post">
                     @csrf
+
+                    @foreach ($errors->all() as $message)
+                        <div class="alert alert-danger">{{$message}}</div>
+                    @endforeach
                     
                     <div class="card">
                         <div class="card-header">
@@ -143,7 +155,7 @@
                             <table class="table table-sm text-center">
                                 <thead>
                                     <tr>
-                                        <th>@lang('SL')</th>
+                                        <th>&nbsp;</th>
                                         <th style="width:10%;">@lang('Installment No')</th>
                                         <th style="width:100px;">@lang('Paid Status')</th>
                                         <th style="width:10%;">@lang('Date')</th>
@@ -157,7 +169,19 @@
                                     {{-- hidden input --}}
                                     <input type="hidden" name="installmentId[]" value="{{$installment->id}}">
                                     <tr>
-                                        <td>{{$loop->iteration}}</td>
+                                        <td>
+                                            @if(!$installment->is_paid)
+                                            <div class="icheck-primary icheck-inline">
+                                                <input type="checkbox" value="{{$installment->id}}" class="takes" id="takes{{$key}}" name="takes[{{$key}}]" />
+                                                <label for="takes{{$key}}">&nbsp;</label>
+                                            </div>
+                                            @else
+                                            <div class="icheck-primary icheck-inline">
+                                                <input type="checkbox" value="{{$installment->id}}" id="takes{{$key}}" name="takes[{{$key}}]" disabled checked />
+                                                <label for="takes{{$key}}">&nbsp;</label>
+                                            </div>
+                                            @endif
+                                        </td>
                                         <td>{{$installment->installment_no}}</td>
                                         <td>
                                             <x-active-status 
@@ -204,7 +228,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-sm btn-primary" type="submit">Save</button>
+                            <button class="btn btn-sm btn-primary" id="submit-button" type="button">Save</button>
                         </div>
                     </div>
                 </form>
@@ -221,6 +245,10 @@
     <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
     {{-- bootstrap 4 select 2 theme --}}
     <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    {{-- nice selecte --}}
+    <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}" crossorigin="anonymous" />
+    {{-- sweet alert --}}
+   <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}" />
 @endpush
 
 @push('js')
@@ -229,6 +257,8 @@
     <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}" crossorigin="anonymous"></script>
     {{-- bootstrap select 2 --}}
     <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
+    {{-- sweet alert --}}
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 @endpush
 
 {{-- extra js --}}
@@ -245,6 +275,17 @@
             theme: "bootstrap4",
             allowClear: true,
             placeholder: "@lang('Select a Member')",
+        });
+
+        $('#submit-button').on('click', function (evt) {
+            if(!$('.takes:checked').prop('checked')) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Alert!',
+                    text: 'Please select a checkbox',
+                });
+            }
+            $('#loan-store').submit();
         });
 
         

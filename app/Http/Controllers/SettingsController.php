@@ -9,7 +9,7 @@ class SettingsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:miscellaneous-general_setting')->only(['index', 'store']);
+        $this->middleware('permission:general_setting')->only(['index', 'store']);
     }
     
     public function index() 

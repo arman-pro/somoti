@@ -15,7 +15,7 @@ class ActivityController extends Controller
     public function __construct()
     {
         // set permission
-        $this->middleware('permission:miscellaneous-activity_log', ['only' => ['index','show']]);
+        $this->middleware('permission:activity_log', ['only' => ['index','show']]);
     }
 
     /**

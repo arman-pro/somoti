@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DpsController;
 use App\Http\Controllers\DpsTypeController;
 use App\Http\Controllers\FdrController;
@@ -37,9 +38,7 @@ Route::get('/', function(){
 
 Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
 
-    Route::get('/', function () {
-        return view('index');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // set language
     Route::get("locale/{lang}", function($lang){
@@ -75,7 +74,7 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
      */
     Route::prefix('collection')->name('collection.')->group(function () {
         Route::get('loan', [CollectionController::class, 'loanCollection'])->name('loan');
-        Route::post('loan', [CollectionController::class, 'storeLoanCollection'])->name('loan.store');
+        Route::post('loan/{loan}', [CollectionController::class, 'storeLoanCollection'])->name('loan.store');
     });
 
 

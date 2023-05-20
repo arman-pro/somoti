@@ -30,6 +30,7 @@ class MemberController extends Controller
      */
     public function index()
     {
+        $member = Member::first();
         if(request()->ajax()) {
             return $this->members();
         }

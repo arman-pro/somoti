@@ -768,8 +768,8 @@
 
           {{-- settings module --}}
           @canany([
-            'role-index', 'role-create', 'role-update',
-            'miscellaneous-general_setting', 'branch-index', 'group-index', 'area-index',
+            'role-index', 'role-create', 'role-update','activity_log','database_backup',
+            'general_setting', 'branch-index', 'group-index', 'area-index',
           ])
           <li class="nav-item">
             <a href="javascript:void()" class="nav-link">
@@ -780,7 +780,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @can('miscellaneous-general_setting')
+              @can('general_setting')
               <li class="nav-item">
                 <a href="{{route('settings.general')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -825,7 +825,7 @@
               </li>
               @endcan
 
-              @can("miscellaneous-activity_log")
+              @can("activity_log")
               <li class="nav-item">
                 <a href="{{route('activity.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -855,7 +855,7 @@
                 </a>
               </li>
 
-              @can('miscellaneous-database_backup')
+              @can('database_backup')
               <li class="nav-item">
                 <a href="javascript:void(0)" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

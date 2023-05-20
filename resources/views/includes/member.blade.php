@@ -47,6 +47,10 @@
                     <th>@lang('Savings Amount')</th>
                     <td>{{number_format($member->saving_amount ?? 0, 2)}}</td>
                 </tr>
+                <tr>
+                    <th>@lang('Loan Amount')</th>
+                    <td>{{number_format($member->loan_amount ?? 0, 2)}}</td>
+                </tr>
             </tbody>
         </table>
     </div>
