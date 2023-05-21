@@ -18,6 +18,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SavingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SharePurchaseController;
+use App\Http\Controllers\ShareSaleController;
 use App\Http\Controllers\UserController;
 use App\Models\Member;
 use Illuminate\Support\Facades\App;
@@ -82,6 +83,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
 
     // share purchase
     Route::resource("share-purchase", SharePurchaseController::class);
+    // share sale
+    Route::resource("share-sale", ShareSaleController::class);
 
 
     // group modlue

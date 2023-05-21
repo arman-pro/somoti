@@ -304,7 +304,7 @@
           </li>
           @endcanany
 
-          @canany(['sharePurchase-index'])
+          @canany(['sharePurchase-index', 'shareSale-index'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-balance-scale"></i>
@@ -323,26 +323,14 @@
               </li>
               @endcan
 
-              {{-- <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Add Purchase Share')
-                </a>
-              </li> --}}
-
+              @can('shareSale-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('share-sale.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Share Sales List')
                 </a>
               </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Sale Share')
-                </a>
-              </li>
+              @endcan
             </ul>
           </li>
           @endcanany

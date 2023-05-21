@@ -25,7 +25,7 @@ class SharePurchaseRequest extends FormRequest
     {
         return [
             "date" => ['required', 'date_format:'.filterDateFormat().''],
-            "vouchar_no" => ['nullable', 'unique:sharepurchases,vouchar_no,'.optional($this->share_purchase)->id],
+            "vouchar_no" => ['nullable', 'unique:shares,vouchar_no,'.optional($this->share_purchase)->id],
             "amount" => ['required', 'numeric'],
             "member_id" => ['required', 'numeric'],
             "comment" => ['nullable'],

@@ -38,15 +38,18 @@
             <form action="{{route('permission', ['role' => $role])}}" method="post">
                 @csrf
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header bg-success">
                         <h4 class="card-title">Assign Role Permission - (<b><u>{{$role->name}}</u></b>)</h4>
                     </div>
                 </div>
-                <div class="card">                
+                <div class="card shadow">
+                    <div class="card-header bg-success">
+                        <h4 class="card-title">@lang('Module Permission')</h4>
+                    </div>    
                     <div class="card-body overflow-auto">                   
-                        <table class="table table-sm table-striped">
+                        <table class="table table-sm">
                             <thead>
-                                <tr class="text-center">
+                                <tr class="text-center bg-light">
                                     <th>Module</th>
                                     <th>All</th>
                                     <th>Read</th>
@@ -135,7 +138,10 @@
                     </div>
                 </div>
                 
-                <div class="card">
+                <div class="card shadow">
+                    <div class="card-header bg-success">
+                        <h4 class="card-title">@lang('Other Permission')</h4>
+                    </div>
                     <div class="card-body">
                         <table class="table table-sm">
                             <tbody>

@@ -13,9 +13,10 @@ class CreateSharepurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sharepurchases', function (Blueprint $table) {
+        Schema::create('shares', function (Blueprint $table) {
             $table->id();
             $table->char('vouchar_no', 8)->index();
+            $table->enum('share_type', ['sale', 'purchase'])->default('purchase');
             $table->date('date');
             $table->double('amount');
             $table->foreignId('member_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

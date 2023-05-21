@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', __('Share Purchase List'))
+@section('title', __('Share Sale List'))
 
 @section('page-header')
     <!-- Content Header (Page header) -->
@@ -7,14 +7,14 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h4 class="m-0">@lang('Share Purchase List')</h4>
+            <h4 class="m-0">@lang('Share Sale List')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
-                <li class="breadcrumb-item active">@lang('Share Purchase List')</li>
+                <li class="breadcrumb-item active">@lang('Share Sale List')</li>
             </ol>
             </div>
         </div>
@@ -25,8 +25,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('sharePurchase-create')
-                        <a href="javascript:void(0)" data-href="{{route('share-purchase.create')}}" id="create-btn" class="btn btn-sm btn-success">@lang('Add Purchase Share')</a>
+                    @can('shareSale-create')
+                        <a href="javascript:void(0)" id="create-btn" data-href="{{route('share-sale.create')}}" class="btn btn-sm btn-success">@lang('Add New Share Sale')</a>
                     @endcan
                 </div>
             </div>
@@ -40,10 +40,10 @@
         <div class="col-md-12 col-sm-12">
             <div class="card shadow">
                 <div class="card-header bg-success">
-                    <h4 class="card-title">@lang('Share Purchase List')</h4>
+                    <h4 class="card-title">@lang('Share Sale List')</h4>
                 </div>
                 <div class="card-body overflow-auto">
-                    <table id="sharepurchase_list" class="table table-sm table-bordered text-center">
+                    <table id="sharesale_list" class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr class="text-center bg-light">
                                 <th>@lang('SL')</th>
@@ -55,24 +55,22 @@
                                 <th>@lang('Comment')</th>
                                 <th>@lang('Action')</th>
                             </tr>
-                        </thead>
+                        </thead>                        
                     </table>
-                </div>
-                <div class="card-footer text-sm">
-                    @lang('Share Purchase List')
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- add new purchase modal --}}
-    <div class="modal fade bd-example-modal-lg" id="add-new-purchase" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    
+    {{-- add new share slae modal --}}
+    <div class="modal fade bd-example-modal-lg" id="add-new-sale" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form action="{{route('share-purchase.store')}}" id="create-form" method="post">
+            <form action="{{route('share-sale.store')}}" id="create-form" method="post">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header bg-success">
-                        <h5 class="modal-title">{{__("Add Purchase Share")}}</h5>
+                        <h5 class="modal-title">{{__("Add New Share Sale")}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -125,10 +123,7 @@
             </form>
         </div>
     </div>
-    
 
-    {{-- delete form --}}
-    <form action="" id="delete_form" method="post">@csrf @method("DELETE")</form>
 @endsection
 
 {{-- extra css --}}
@@ -163,7 +158,7 @@
     <script>
         var table = null;
         $(function() {
-            table = $("#sharepurchase_list").DataTable({
+            table = $("#sharesale_list").DataTable({
                 "columnDefs": [
                     {
                         "targets": -1,
@@ -173,7 +168,7 @@
                 ],
                 processing: true,
                 serverSide: true,
-                ajax: '{{route("share-purchase.index")}}',
+                ajax: '{{route("share-sale.index")}}',
                 columns: [
                     { data: 'id', orderSequence: ["desc"], className: 'text-center' },
                     { data: 'vouchar_no' },
@@ -208,7 +203,7 @@
             });
 
             $('#create-btn').click(function() {
-                $('#add-new-purchase').modal('show');
+                $('#add-new-sale').modal('show');
             });
 
             // save and create form
@@ -234,8 +229,8 @@
                             });
                             $('#create-form').trigger('reset');
                             $('#member').val(null).trigger('change');
-                            table.ajax.reload(null, false);                            
-                            $('#add-new-purchase').modal('hide');
+                            table.ajax.reload(null, false);
+                            $('#add-new-sale').modal('hide');
                         }                        
                     }
                 });
@@ -246,7 +241,7 @@
                 let href = $(this).data('href');
                 $('#view_modal').modal('show');
                 $('#view_body').html(LOADING_SPINNER);
-                $('#view_title').text('{{__("Edit Purchase Share")}}');
+                $('#view_title').text('{{__("Edit Sale Share")}}');
                 $.ajax({
                     url: href,
                     method: 'get', 
@@ -271,7 +266,7 @@
             });
 
             // update form
-            $(document).on('submit', '#update-share-purchase', function (evt) {
+            $(document).on('submit', '#update-share-sale', function (evt) {
                 evt.preventDefault();
                 let action = $(this).attr('action');                
                 var data = Object.fromEntries(new FormData(evt.target).entries());

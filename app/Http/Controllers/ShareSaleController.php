@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SharePurchase;
+use App\Models\ShareSale;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SharePurchaseRequest;
 use App\Models\Member;
 use Illuminate\Http\Request;
-use DataTables;
 use DB;
 
-class SharePurchaseController extends Controller
+class ShareSaleController extends Controller
 {
 
-    protected $v_path = "pages.sharepurchase.";
+    protected $v_path = "pages.sharesale.";
 
     public function __construct()
     {
         // set permission
-        $this->middleware('permission:sharePurchase-index', ['only' => ['index','show']]);
-        $this->middleware('permission:sharePurchase-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:sharePurchase-update', ['only' => ['edit','update']]);
-        $this->middleware('permission:sharePurchase-destroy', ['only' => ['destroy']]);
+        $this->middleware('permission:shareSale-index', ['only' => ['index','show']]);
+        $this->middleware('permission:shareSale-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:shareSale-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:shareSale-destroy', ['only' => ['destroy']]);
     }
 
     /**
@@ -40,14 +39,14 @@ class SharePurchaseController extends Controller
 
     public function datatables()
     {
-        $share_purchase = SharePurchase::with(['member'])->where('share_type', 'purchase')->orderBy('id', 'desc');
-        return DataTables()->eloquent($share_purchase)
-        ->editColumn('date', function (SharePurchase $share) {
+        $share_sale = ShareSale::with(['member'])->where('share_type', 'sale')->orderBy('id', 'desc');
+        return DataTables()->eloquent($share_sale)
+        ->editColumn('date', function (ShareSale $share) {
             return printDateFormat($share->date);
         })
         ->editColumn('share_type', '{{ucfirst($share_type)}}')
-        ->addColumn('action', function (SharePurchase $share) {
-            return view('action.share-purchase', compact('share'));
+        ->addColumn('action', function (ShareSale $share) {
+            return view('action.sale-share', compact('share'));
         })
         ->rawColumns(['action'])
         ->toJson();
@@ -75,8 +74,9 @@ class SharePurchaseController extends Controller
         DB::beginTransaction();
         try {
             $data['date'] = saveDateFormat($data['date']);
-            $data['vouchar_no'] = $request->vouchar_no ?? generateSharePurchaseVoucharNo();
-            SharePurchase::create($data);
+            $data['share_type'] = 'sale';
+            $data['vouchar_no'] = $request->vouchar_no ?? generateSharePurchaseVoucharNo('SL');
+            ShareSale::create($data);
             DB::commit();
         }catch(\Exception $e) {
             DB::rollback();
@@ -84,71 +84,70 @@ class SharePurchaseController extends Controller
         }        
         return response()->json([
             'success' => true,
-            'message' => 'Share Purchase created successfull!',
-        ]);
+            'message' => 'Share Sale created successfull!',
+        ]);   
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\SharePurchase  $sharePurchase
+     * @param  \App\Models\ShareSale  $shareSale
      * @return \Illuminate\Http\Response
      */
-    public function show(SharePurchase $sharePurchase)
+    public function show(ShareSale $shareSale)
     {
-        return view($this->v_path . "view", compact('sharePurchase'));
+        return view($this->v_path . "view", compact('shareSale'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\SharePurchase  $sharePurchase
+     * @param  \App\Models\ShareSale  $shareSale
      * @return \Illuminate\Http\Response
      */
-    public function edit(SharePurchase $sharePurchase)
+    public function edit(ShareSale $shareSale)
     {
         $members = Member::select('id', 'name')->whereIsActive(true)->get();
-        return view($this->v_path . "edit", compact('sharePurchase', 'members'));
+        return view($this->v_path . "edit", compact('shareSale', 'members'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\SharePurchaseRequest  $request
-     * @param  \App\Models\SharePurchase  $sharePurchase
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\ShareSale  $shareSale
      * @return \Illuminate\Http\Response
      */
-    public function update(SharePurchaseRequest $request, SharePurchase $sharePurchase)
+    public function update(Request $request, ShareSale $shareSale)
     {
         $data = $request->all();
         DB::beginTransaction();
         try {
             $data['date'] = saveDateFormat($data['date']);
-            $sharePurchase->update($data);
+            $shareSale->update($data);
             DB::commit();
             return response()->json([
                 'success' => true,
-                'message' => 'Share Purchase updated successfull!',
+                'message' => 'Share Sale updated successfull!',
             ]);
         }catch(\Exception $e) {
             DB::rollback();
             abort(505, $e->getMessage());
         }
-        
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\SharePurchase  $sharePurchase
+     * @param  \App\Models\ShareSale  $shareSale
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SharePurchase $sharePurchase)
+    public function destroy(ShareSale $shareSale)
     {
-        $sharePurchase->delete();      
+        $shareSale->delete();      
         return response()->json([
             'success' => true,
-            'text' => 'Share Purchase deleted succesfull!',
+            'text' => 'Share Sale deleted succesfull!',
         ]);
     }
 }
