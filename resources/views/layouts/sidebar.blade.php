@@ -409,38 +409,6 @@
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-landmark"></i>
-              <p>
-                @lang('Bank')
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Bank List')
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Add New Bank')
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Bank Transaction')
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 @lang('Accounts')
@@ -459,6 +427,27 @@
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New Accounts')
+                </a>
+              </li>
+              {{-- bank --}}
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('Bank List')
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('Add New Bank')
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('Bank Transaction')
                 </a>
               </li>
 
@@ -576,7 +565,7 @@
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-gem"></i>
               <p>
-                @lang('Product')
+                @lang('Inventory')
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -598,6 +587,20 @@
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
+                  @lang('Sale List')
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('Add New Sale')
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
                   @lang('Unit')
                 </a>
               </li>
@@ -607,29 +610,10 @@
                   @lang('Category')
                 </a>
               </li>
-            </ul>
-          </li>
-
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-shopping-bag"></i>
-              <p>
-                @lang('Sale')
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  @lang('Sale List')
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Add New Sale')
+                  @lang('Supplier')
                 </a>
               </li>
             </ul>
@@ -659,72 +643,6 @@
               </li>
             </ul>
           </li>
-
-          {{-- users module --}}
-          @canany([
-            'user-index', 'user-create',
-            'user-update', 'user-destroy'
-          ])
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                @lang('Users')
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @can('user-index')
-              <li class="nav-item">
-                <a href="{{route('users')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('User List')
-                </a>
-              </li>
-              @endcan
-
-              @can('user-create')
-              <li class="nav-item">
-                <a href="{{route('users.create')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('User Create')
-                </a>
-              </li>
-              @endcan
-            </ul>
-          </li>
-          @endcanany
-
-        @canany(['language-index', 'language-create', 'language-update', 'language-destroy'])
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-globe"></i>
-              <p>
-                @lang('Language')
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-            @can('language-index')
-              <li class="nav-item">
-                <a href="{{route("language.index")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('All Language')
-                </a>
-              </li>
-            @endcan
-
-            @can('language-create')
-              <li class="nav-item">
-                <a href="{{route('language.create')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Add New Language')
-                </a>
-              </li>
-            @endcan
-            </ul>
-          </li>
-        @endcanany
 
         {{-- Report Module --}}
         <li class="nav-item">
@@ -769,7 +687,8 @@
           {{-- settings module --}}
           @canany([
             'role-index', 'role-create', 'role-update','activity_log','database_backup',
-            'general_setting', 'branch-index', 'group-index', 'area-index',
+            'general_setting', 'branch-index', 'group-index', 'area-index', 'user-index', 'user-create',
+            'language-index', 'language-create',
           ])
           <li class="nav-item">
             <a href="javascript:void()" class="nav-link">
@@ -824,6 +743,42 @@
                 </a>
               </li>
               @endcan
+
+              @can('user-index')
+              <li class="nav-item">
+                <a href="{{route('users')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('User List')
+                </a>
+              </li>
+              @endcan
+
+              @can('user-create')
+              <li class="nav-item">
+                <a href="{{route('users.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('User Create')
+                </a>
+              </li>
+              @endcan
+
+              @can('language-index')
+              <li class="nav-item">
+                <a href="{{route("language.index")}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('All Language')
+                </a>
+              </li>
+            @endcan
+
+            @can('language-create')
+              <li class="nav-item">
+                <a href="{{route('language.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('Add New Language')
+                </a>
+              </li>
+            @endcan
 
               @can("activity_log")
               <li class="nav-item">
