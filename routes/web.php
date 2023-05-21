@@ -80,7 +80,6 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         Route::get('dps', [CollectionController::class, 'dps'])->name('dps');
         Route::post('dps/{dps}', [CollectionController::class, 'storeDpsCollection'])->name('dps.store');
     });
-
     // share purchase
     Route::resource("share-purchase", SharePurchaseController::class);
     // share sale

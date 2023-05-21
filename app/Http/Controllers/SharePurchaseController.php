@@ -42,6 +42,7 @@ class SharePurchaseController extends Controller
     {
         $share_purchase = SharePurchase::with(['member'])->where('share_type', 'purchase')->orderBy('id', 'desc');
         return DataTables()->eloquent($share_purchase)
+        ->addIndexColumn()
         ->editColumn('date', function (SharePurchase $share) {
             return printDateFormat($share->date);
         })

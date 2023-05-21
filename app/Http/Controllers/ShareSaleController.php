@@ -41,6 +41,7 @@ class ShareSaleController extends Controller
     {
         $share_sale = ShareSale::with(['member'])->where('share_type', 'sale')->orderBy('id', 'desc');
         return DataTables()->eloquent($share_sale)
+        ->addIndexColumn()
         ->editColumn('date', function (ShareSale $share) {
             return printDateFormat($share->date);
         })
