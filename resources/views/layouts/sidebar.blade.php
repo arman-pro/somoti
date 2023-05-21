@@ -360,6 +360,7 @@
             </ul>
           </li>
 
+          @canany(['savings-withdraw','dps-withdraw','fdr-withdraw','fdr-profit-withdraw'])
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">
               <i class="nav-icon fas fa-stamp"></i>
@@ -369,35 +370,44 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('savings-withdraw')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('withdraw.saving')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Saving Withdraw')
                 </a>
               </li>
+              @endcan
 
+              @can('dps-withdraw')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('DPS Withdraw')
                 </a>
               </li>
+              @endcan
 
+              @can('fdr-withdraw')
+              <li class="nav-item">
+                <a href="{{route('withdraw.fdr')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  @lang('FDR Withdraw')
+                </a>
+              </li>
+              @endcan
+
+              @can('fdr-profit-withdraw')
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('FDR Profit Withdraw')
                 </a>
               </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('FDR Withdraw')
-                </a>
-              </li>
+              @endcan
             </ul>
           </li>
+          @endcanany
 
           <li class="nav-item">
             <a href="javascript:void(0)" class="nav-link">

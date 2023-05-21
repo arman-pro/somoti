@@ -37,6 +37,12 @@ trait PermissionTrait {
                 'DPS Collection' => 'dps-collection',
                 'FDR Collection' => 'fdr-collection',
             ],
+            'withdraw' => [
+                'Savings Withdraw' => 'savings-withdraw',
+                'DPS Withdraw' => 'dps-withdraw',
+                'FDR Withdraw' => 'fdr-withdraw',
+                'FDR Profit Withdraw' => 'fdr-profit-withdraw',
+            ],
             'report' => [
                 'User Report' => 'user-report',
             ],

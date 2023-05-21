@@ -41,7 +41,7 @@
                 <div class="card-header">
                     <h4 class="card-title">User Permission - (<b><u>{{$user->name}}</u></b>)</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                    
                         <table class="table table-striped">
                             <thead>

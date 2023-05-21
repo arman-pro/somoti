@@ -20,6 +20,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SharePurchaseController;
 use App\Http\Controllers\ShareSaleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WithdrawController;
 use App\Models\Member;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -51,7 +52,8 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
 
     Route::get('/member-details', function() {
         $member = Member::findOrFail(request()->member);
-        return view('includes.member', compact("member"));
+        $bg = "bg-success"; $shadow = "shadow";
+        return view('includes.member', compact("member", "bg", "shadow"));
     })->name('member.details');
 
     // member module
@@ -85,6 +87,11 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
     // share sale
     Route::resource("share-sale", ShareSaleController::class);
 
+    // withdraw module
+    Route::prefix('withdraw')->name('withdraw.')->group(function () {
+        Route::get('saving', [WithdrawController::class, 'savingWithdraw'])->name("saving");
+        Route::get('fdr', [WithdrawController::class, 'fdrWithdraw'])->name("fdr");
+    });
 
     // group modlue
     Route::resource("group", GroupController::class);
