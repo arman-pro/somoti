@@ -92,6 +92,57 @@ class CollectionController extends Controller
     }
 
     /**
+     * store dps installment
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Dps $dps
+     * @return \Illuminate\Http\Response
+     */
+    public function storeDpsCollection(Request $request, Dps $dps) 
+    {
+        $request->validate([
+            'takes' => ['required', 'array', 'min:1'],
+            'installmentId' => ['required', 'array', 'min:1'],
+            'paid_date' => ['required', 'array', 'min:1'],
+            'paid_date.*' => ['nullable', 'date_format:' . filterDateFormat() . ''],
+            'paid_amount' => ['required', 'array', 'min:1'],
+        ]);
+
+        DB::beginTransaction();
+        try {        
+            foreach($request->takes as $key => $installment_id) {
+                $paidAmount = $request->paid_amount[$key];
+                $installment = Installment::find($installment_id);
+                $installment->paid_date = saveDateFormat($request->paid_date[$key]);
+                $installment->paid_amount = $paidAmount;
+                $installment->is_paid = ($installment->paid_amount == $installment->amount) ?? false;
+                $installment->received_by = \Auth::id();
+                $installment->save();
+
+                $profit = 0;
+
+                $dps->paid_amount = $paidAmount ?? 0;
+
+                // if dps matured then profit distribution to member wallet
+                if($dps->paid_amount == $dps->total_amount) {
+                    $dps->is_matured = true;
+                    $profit = $dps->profit;
+                }
+                
+                $dps->save();
+                $dps->member()->update([
+                    'dps_deposit' => $dps->member->dps_deposit += (($paidAmount + $profit) ?? 0),
+                ]);
+            }
+            DB::commit();
+        }catch(\Exception $e) {
+            DB::rollback();
+            alert()->success("Error!", 'Something went worng!');
+        }
+        alert()->success("Ok!", 'Loan taken successfull!');
+        return redirectToRoute("collection.dps");
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

@@ -88,6 +88,22 @@
                                 <td>{{$dps->total_amount}}</td>
                             </tr>
                             <tr>
+                                <th>@lang('Paid Amount')</th>
+                                <td>{{$dps->paid_amount}}</td>
+                            </tr>
+                            <tr>
+                                <th>@lang('Matured Status')</th>
+                                <td>
+                                    <x-active-status 
+                                        active-status="{{$dps->is_matured}}"
+                                        off-message="Running"
+                                        on-message="Matured"
+                                        off-type="success"
+                                        on-type="danger"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>@lang('Comment')</th>
                                 <td>{{$dps->comment ?? "N/A"}}</td>
                             </tr>

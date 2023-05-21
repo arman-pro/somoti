@@ -116,30 +116,97 @@
     {{-- dps form --}}
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <div class="card shadow">
-                <div class="card-header">
-                    <h4 class="card-title">@lang('DPS Collection')</h4>
+            <form action="{{route('collection.dps.store', ['dps' => $dps->id])}}" id="loan-store" method="post">
+                @csrf
+                @foreach ($errors->all() as $message)
+                    <div class="alert alert-danger">{{$message}}</div>
+                @endforeach
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@lang('Installment List')</h4>
+                    </div>
+                    <div class="card-body overflow-auto">
+                        <table class="table table-sm text-center">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th style="width:10%;">@lang('Installment No')</th>
+                                    <th style="width:100px;">@lang('Paid Status')</th>
+                                    <th style="width:10%;">@lang('Date')</th>
+                                    <th>@lang('Amount')</th>
+                                    <th style="width:25%;">@lang('Paid Date')</th>
+                                    <th style="width:20%;">@lang('Paid Amount')</th>
+                                    <th>@lang('Received By')</th>
+                                </tr>
+                            </thead>
+                            @forelse ($dps->installmentable as $key => $installment)
+                                {{-- hidden input --}}
+                                <input type="hidden" name="installmentId[]" value="{{$installment->id}}">
+                                <tr>
+                                    <td>
+                                        @if(!$installment->is_paid)
+                                        <div class="icheck-primary icheck-inline">
+                                            <input type="checkbox" value="{{$installment->id}}" class="takes" id="takes{{$key}}" name="takes[{{$key}}]" />
+                                            <label for="takes{{$key}}">&nbsp;</label>
+                                        </div>
+                                        @else
+                                        <div class="icheck-primary icheck-inline">
+                                            <input type="checkbox" value="{{$installment->id}}" id="takes{{$key}}" name="takes[{{$key}}]" disabled checked />
+                                            <label for="takes{{$key}}">&nbsp;</label>
+                                        </div>
+                                        @endif
+                                    </td>
+                                    <td>{{$installment->installment_no}}</td>
+                                    <td>
+                                        <x-active-status 
+                                            active-status="{{$installment->is_paid}}" 
+                                            off-message="Due"
+                                            on-message="Paid"
+                                        />
+                                    </td>
+                                    <td>{{printDateFormat($installment->date)}}</td>
+                                    <td>{{number_format($installment->amount, 2)}}</td>
+                                    <td style="width:25%;">
+                                        @if($installment->paid_date)
+                                            {{printDateFormat($installment->paid_date)}}
+                                        @else                                                
+                                            <div class="form-group" style="min-width:150px;">
+                                                <div class="input-group date paid-date" id="loanStartDatePicker{{$key}}" data-target-input="nearest">
+                                                    <input type="text" name="paid_date[{{$key}}]" placeholder="@lang('Paid Date')" data-target="#loanStartDatePicker{{$key}}" class="form-control form-control-sm datetimepicker-input" />
+                                                    <div class="input-group-append" data-target="#loanStartDatePicker{{$key}}" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td style="width:20%;">
+                                        @if($installment->paid_amount)
+                                            {{number_format($installment->paid_amount)}}
+                                        @else
+                                            <input type="number" style="min-width:150px;" min="0" step="any" name="paid_amount[{{$key}}]" class="form-control form-control-sm" placeholder="Paid Amount*" />
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if($installment->received_by)
+                                            {{optional($installment->receivedBy)->name}}
+                                        @else 
+                                            N/A
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                
+                            @endforelse
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-sm btn-primary" id="submit-button" type="button">Save</button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form action="" method="post">
-                        <div class="form-row">
-                            <div class="form-group col-md-4 col-sm-12">
-                                <label for="date">@lang('Date')</label>
-                                <div class="input-group date" id="datePicker" data-target-input="nearest">
-                                    <input type="text" name="datePicker" placeholder="@lang('Paid Date')" data-target="#datePicker" class="form-control form-control-sm datetimepicker-input" />
-                                    <div class="input-group-append" data-target="#datePicker" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4 col-sm-12">
-                                <label for="amount">@lang('Amount')</label>
-                                <input type="nummber" name="amount" min="0" placeholder="@lang('Amount')" class="form-control form-control-sm" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
     @endif
@@ -147,8 +214,12 @@
 
 {{-- extra css --}}
 @push('css')
-{{-- date picker --}}
+    {{-- date picker --}}
     <link rel="stylesheet" href="{{asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}" crossorigin="anonymous" />
+    {{-- nice selecte --}}
+    <link rel="stylesheet" href="{{asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}" crossorigin="anonymous" />
+    {{-- sweet alert --}}
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}" />
 @endpush
 
 {{-- extra js --}}
@@ -156,14 +227,28 @@
 {{-- date picker --}}
     <script src="{{asset('plugins/moment/moment.min.js')}}" crossorigin="anonymous"></script>
     <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}" crossorigin="anonymous"></script>
+    {{-- sweet alert --}}
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 @endpush
 
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#datePicker').datetimepicker({
+            $('.paid-date').datetimepicker({
                 format: "{{dataFormat()}}",
-                date: moment(),
+                date: null,
+            });
+
+            $('#submit-button').on('click', function (evt) {
+                if(!$('.takes:checked').prop('checked')) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Alert!',
+                        text: 'Please select a checkbox',
+                    });
+                }else {
+                    $('#loan-store').submit();
+                }                
             });
         });
     </script>

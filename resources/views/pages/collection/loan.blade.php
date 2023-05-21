@@ -283,6 +283,7 @@
                     title: 'Alert!',
                     text: 'Please select a checkbox',
                 });
+                return;
             }
             $('#loan-store').submit();
         });
