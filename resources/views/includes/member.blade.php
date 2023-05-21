@@ -1,5 +1,5 @@
-<div class="card @if(isset($collapsed) && $collapsed) collapsed-card @else expanded-card @endif">
-    <div class="card-header">
+<div class="card {{$shadow ?? ''}} @if(isset($collapsed) && $collapsed) collapsed-card @else expanded-card @endif">
+    <div class="card-header {{$bg ?? ''}}">
         <h4 class="card-title">@lang('Member Details')</h4>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">

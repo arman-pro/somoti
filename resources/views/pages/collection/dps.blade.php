@@ -27,8 +27,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <div class="card">
-                <div class="card-header">
+            <div class="card shadow">
+                <div class="card-header bg-success">
                     <h4 class="card-title">@lang('DPS Collection')</h4>
                 </div>
                 <div class="card-body text-center">
@@ -50,8 +50,8 @@
     <div class="row">
         {{-- dps detail --}}
         <div class="col-md-6 col-sm-12">
-            <div class="card collapsed-card">
-                <div class="card-header">
+            <div class="card collapsed-card shadow">
+                <div class="card-header bg-success">
                     <h4 class="card-title">@lang('DPS Details')</h4>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -109,7 +109,7 @@
         </div>
         <div class="col-md-6 col-sm-12">
             {{-- include member card --}}
-            @include('includes.member', ['member' => $dps->member, 'collapsed' => true])
+            @include('includes.member', ['member' => $dps->member, 'collapsed' => true, 'shadow' => 'shadow', 'bg' => 'bg-success'])
         </div>
     </div>
 
@@ -122,8 +122,8 @@
                     <div class="alert alert-danger">{{$message}}</div>
                 @endforeach
                 
-                <div class="card">
-                    <div class="card-header">
+                <div class="card shadow">
+                    <div class="card-header bg-success">
                         <h4 class="card-title">@lang('Installment List')</h4>
                     </div>
                     <div class="card-body overflow-auto">
