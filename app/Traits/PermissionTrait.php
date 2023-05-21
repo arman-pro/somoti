@@ -13,7 +13,8 @@ trait PermissionTrait {
     public function permission_list() {
 
         return [
-            'member', 'savings', 'dpsType', 'dps', 'fdrType', 'fdr', 'loanType', 'loan', 'user', 'role', 'language', 'branch', 'area', 'group'
+            'member', 'savings', 'dpsType', 'dps', 'fdrType', 'fdr', 'loanType', 'loan', 'user', 
+            'role', 'language', 'branch', 'area', 'group', 'sharePurchase',
         ];
     }
 

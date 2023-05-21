@@ -149,3 +149,26 @@ if(!function_exists('generateDpsId')) {
         return "$prefix-001";
     }
 }
+
+
+if(!function_exists('generateSharePurchaseVoucharNo')) {
+    /**
+     * generate a unique share purchase vouchar no
+     * @param string $prefix default 'SP'
+     * @return string unique mixed
+     */
+    function generateSharePurchaseVoucharNo($prefix='SP'){
+        $lastSharePurchase = \App\Models\SharePurchase::select('vouchar_no')->where('vouchar_no', 'LIKE', $prefix . '%')->orderBy('id', 'desc')->first();
+        if($lastSharePurchase) {
+            $lastVoucharNo = str_replace("$prefix-", '', $lastSharePurchase->vouchar_no);
+            if($lastVoucharNo < 9) {
+                return "$prefix-00" . ($lastVoucharNo + 1);
+            }
+            if($lastVoucharNo < 99) {
+                return "$prefix-0" . ($lastVoucharNo + 1);
+            }
+            return "$prefix-" . ($lastVoucharNo + 1);
+        }
+        return "$prefix-001";
+    }
+}
