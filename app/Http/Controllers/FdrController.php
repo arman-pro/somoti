@@ -100,7 +100,10 @@ class FdrController extends Controller
         $data['start_date']     = saveDateFormat($data['start_date']);
         $data['expire_date']    = saveDateFormat($data['expire_date']);
         $data['date']           = saveDateFormat($data['date']);
-        Fdr::create($data);
+        $fdr = Fdr::create($data);
+        $fdr->member()->update([
+            'fdr_amount' => $fdr->member->fdr_amount += $data['fdr_amount'],
+        ]);
         alert()->success('Created', 'FDR created succesfully!');
         return redirectToRoute("fdr.index");
     }
@@ -140,11 +143,14 @@ class FdrController extends Controller
     public function update(FdrRequest $request, Fdr $fdr)
     {
         $data = $request->all();
-        $data = $request->all();
+        $old_amount = $fdr->fdr_amount;
         $data['start_date']     = saveDateFormat($data['start_date']);
         $data['expire_date']    = saveDateFormat($data['expire_date']);
         $data['date']           = saveDateFormat($data['date']);
-        $fdr->update($data);
+        $fdr->update($data);       
+        $fdr->member()->update([
+            'fdr_amount' => ($fdr->member->fdr_amount +- $old_amount) + $fdr->fdr_amount,
+        ]);
         alert()->success('Updated', 'FDR updated succesfully!');
         return redirectToRoute("fdr.index");
     }

@@ -26,7 +26,8 @@
 @section('content')
     <div class="row">
         <div class="col-md-6 col-sm-12">
-            <form action="" method="post">
+            <form action="{{route('withdraw.saving.store')}}" id="saving-form" method="post">
+                @csrf
                 <div class="card shadow">
                     <div class="card-header bg-success">
                         <h4 class="card-title">@lang('Saving Withdraw')</h4>
@@ -58,6 +59,10 @@
                             <input type="number" name="amount" id="amount" min="0" step="any" placeholder="@lang('Amount')" class="form-control form-control-sm @error('amount') is-invalid @enderror" required />
                             @error('amount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                         </div>
+                        <div class="form-group">
+                            <label for="comment">@lang('Comment')</label>
+                            <textarea name="comment" id="comment" cols="30" rows="2" class="form-control" placeholder="@lang('Comment')"></textarea>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-sm btn-success">@lang('Save')</button>
@@ -84,6 +89,8 @@
     <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
     {{-- bootstrap 4 select 2 theme --}}
     <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    {{-- sweet alert --}}
+    <link rel="stylesheet" href="{{asset("plugins/sweetalert2/sweetalert2.min.css")}}" />
 @endpush
 
 {{-- extra js --}}
@@ -93,6 +100,8 @@
     <script src="{{asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}" crossorigin="anonymous"></script>
     {{-- bootstrap select 2 --}}
     <script src="{{asset('plugins/select2/js/select2.min.js')}}"></script>
+    {{-- seet alert --}}
+    <script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>   
 @endpush
 
 {{-- extra js --}}
@@ -121,7 +130,40 @@
                 $('#member_detail').html('');
             }
 
-        })
+        });
+
+        $('#saving-form').on('submit', function(evt) {
+            evt.preventDefault();
+            let data = Object.fromEntries(new FormData(evt.target).entries());
+            let action = $(this).attr('action');
+            $.ajax({
+                url: action,
+                data: data,
+                method: 'POST',
+                dataType: 'json',
+                beforSend: function () {
+                    $('#saving-form button[type="submit"]').html(LOADING_SPINNER);
+                },
+                success: function (data) {
+                    if(data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                        });
+                        $('#saving-form').trigger('reset');
+                        $('#member').val('').trigger('change');
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Wrong!',
+                        text: 'Something went worng!',
+                    });
+                },
+            });
+        });
     });
 </script>
 @endpush

@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <th>@lang('Savings Amount')</th>
-                    <td>{{number_format($member->saving_amount ?? 0, 2)}}</td>
+                    <td>{{number_format(($member->saving_amount - $member->saving_withdraw_amount), 2)}}</td>
                 </tr>
                 <tr>
                     <th>@lang('Loan Amount')</th>
@@ -54,6 +54,10 @@
                 <tr>
                     <th>@lang('DPS Amount')</th>
                     <td>{{number_format(($member->dps_deposit - $member->dps_withdraw) ?? 0, 2)}}</td>
+                </tr>
+                <tr>
+                    <th>@lang('FDR Amount')</th>
+                    <td>{{number_format(($member->fdr_amount - $member->fdr_amount_withdraw) ?? 0, 2)}}</td>
                 </tr>
             </tbody>
         </table>

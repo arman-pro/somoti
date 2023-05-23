@@ -92,7 +92,7 @@
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="fdr_amount">@lang('FDR Amount')*</label>
-                                    <input type="number" name="fdr_amount" placeholder="@lang('FDR Amount')" value="{{old('fdr_amount')}}" id="fdr_amount" class="form-control form-control-sm @error('fdr_amount') is-invalid @enderror " required/>
+                                    <input type="number" name="fdr_amount"  min="0" step="any placeholder="@lang('FDR Amount')" value="{{old('fdr_amount')}}" id="fdr_amount" class="form-control form-control-sm @error('fdr_amount') is-invalid @enderror " required/>
                                     @error('fdr_amount')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>

@@ -145,7 +145,7 @@
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="return_interest">@lang('Return Interest')*</label>
-                                    <input type="number" name="return_interest" placeholder="@lang('Return Interest')" value="{{$fdr->return_interest}}" id="return_interest" class="form-control form-control-sm @error('return_interest') is-invalid @enderror " required/>
+                                    <input type="number" name="return_interest" min="0" step="any" placeholder="@lang('Return Interest')" value="{{$fdr->return_interest}}" id="return_interest" class="form-control form-control-sm @error('return_interest') is-invalid @enderror " required/>
                                     @error('return_interest')<p class="m-0 text-danger"><small>{{$message}}</small></p>@enderror
                                 </div>
                             </div>
