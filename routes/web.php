@@ -93,6 +93,7 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         Route::post('saving', [WithdrawController::class, 'savingWithdrawStore'])->name("saving.store");
         Route::get('fdr', [WithdrawController::class, 'fdrWithdraw'])->name("fdr");
         Route::post('fdr', [WithdrawController::class, 'fdrWithdrawStore'])->name("fdr.store");
+        Route::get('list/{member}', [WithdrawController::class, 'list'])->name("list");
     });
 
     // group modlue

@@ -42,6 +42,7 @@ trait PermissionTrait {
                 'DPS Withdraw' => 'dps-withdraw',
                 'FDR Withdraw' => 'fdr-withdraw',
                 'FDR Profit Withdraw' => 'fdr-profit-withdraw',
+                'Withdraw List' => 'withdraw-list',
             ],
             'report' => [
                 'User Report' => 'user-report',

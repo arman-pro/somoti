@@ -16,6 +16,52 @@ class WithdrawController extends Controller
         // set permission
         $this->middleware('permission:savings-withdraw', ['only' => ['savingWithdraw']]);
         $this->middleware('permission:fdr-withdraw', ['only' => ['fdrWithdraw']]);
+        $this->middleware('permission:withdraw-list', ['only' => ['list']]);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     */
+    public function list(Request $request, $member) 
+    {
+        if($request->ajax() && $request->type == 'saving') {
+            return $this->savingWithdrawList($member, 'saving');
+        }
+        if($request->ajax() && $request->type == 'fdr') {
+            return $this->fdrWithdrawList($member, 'fdr');
+        }
+        $member = Member::findOrFail($member);
+        return view('pages.member.withdraw-list', compact('member'));
+    }
+
+    public function savingWithdrawList($member, $type)
+    {
+        $withdraws = Withdraw::where('withdraw_type', $type)->whereMemberId($member);
+        return Datatables()->eloquent($withdraws)
+        ->addIndexColumn()
+        ->setRowId('id')
+        ->editColumn('withdraw_type', function (Withdraw $withdraw) {
+            return ucfirst($withdraw->withdraw_type);
+        })
+        ->editColumn('date', function (Withdraw $withdraw) {
+            return printDateFormat($withdraw->date);
+        })
+        ->make();
+    }
+
+    public function fdrWithdrawList($member, $type)
+    {
+        $withdraws = Withdraw::where('withdraw_type', $type)->whereMemberId($member);
+        return Datatables()->eloquent($withdraws)
+        ->addIndexColumn()
+        ->setRowId('id')
+        ->editColumn('withdraw_type', function (Withdraw $withdraw) {
+            return ucfirst($withdraw->withdraw_type);
+        })
+        ->editColumn('date', function (Withdraw $withdraw) {
+            return printDateFormat($withdraw->date);
+        })
+        ->make();
     }
 
     /**

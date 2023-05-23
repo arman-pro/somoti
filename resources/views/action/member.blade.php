@@ -7,6 +7,9 @@
             @can('member-index')
                 <a class="dropdown-item" href="{{route("member.show", ['member' => $member->id])}}"><i class="fas fa-eye"></i> @lang('View')</a>
             @endif
+            @can('withdraw-list')
+                <a class="dropdown-item" href="{{route("withdraw.list", ['member' => $member->id])}}"><i class="fas fa-history"></i> @lang('Withdraw List')</a>
+            @endif
             @can('member-update')
                 <a class="dropdown-item" href="{{route('member.edit', ['member' => $member->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
             @endcan
