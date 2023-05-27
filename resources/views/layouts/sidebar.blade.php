@@ -418,6 +418,34 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+                {{-- bank --}}
+                @can('bank-index')
+                <li class="nav-item">
+                  <a href="{{route('bank-account.index')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    @lang('Bank List')
+                  </a>
+                </li>
+                @endcan
+  
+                @can('bank-create')
+                <li class="nav-item">
+                  <a href="{{route('bank-account.create')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    @lang('Add New Bank')
+                  </a>
+                </li>
+                @endcan
+  
+                @can('bank-transaction-list')
+                <li class="nav-item">
+                  <a href="{{route('bank-account.transaction')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    @lang('Bank Transaction')
+                  </a>
+                </li>
+                @endcan
+                
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -431,27 +459,7 @@
                   @lang('Add New Accounts')
                 </a>
               </li>
-              {{-- bank --}}
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Bank List')
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Add New Bank')
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  @lang('Bank Transaction')
-                </a>
-              </li>
+            
 
               <li class="nav-item">
                 <a href="#" class="nav-link">

@@ -14,6 +14,7 @@ trait PermissionTrait {
 
         return [
             'member', 'savings', 'dpsType', 'dps', 'fdrType', 'fdr', 'loanType', 'loan', 'user', 
+            'bank',
             'role', 'language', 'branch', 'area', 'group', 'sharePurchase', 'shareSale',
         ];
     }
@@ -43,6 +44,12 @@ trait PermissionTrait {
                 'FDR Withdraw' => 'fdr-withdraw',
                 'FDR Profit Withdraw' => 'fdr-profit-withdraw',
                 'Withdraw List' => 'withdraw-list',
+            ],
+            'Bank Transaction' => [
+                'Bank Transaction List' => 'bank-transaction-list',
+                'Bank Transaction Add' => 'bank-transaction-add',
+                'Bank Transaction Edit' => 'bank-transaction-edit',
+                'Bank Transaction Delete' => 'bank-transaction-delete',
             ],
             'report' => [
                 'User Report' => 'user-report',

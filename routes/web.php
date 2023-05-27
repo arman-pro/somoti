@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\SharePurchaseController;
 use App\Http\Controllers\ShareSaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
+use App\Models\BankAccount;
 use App\Models\Member;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -35,24 +37,26 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function(){
+
+Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
+Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     // set language
-    Route::get("locale/{lang}", function($lang){
+    Route::get("locale/{lang}", function ($lang) {
         App::setLocale($lang);
         session()->put('language', $lang);
         return redirect()->route("dashboard");
     })->name("set.locale");
 
-    Route::get('/member-details', function() {
+    Route::get('/member-details', function () {
         $member = Member::findOrFail(request()->member);
-        $bg = "bg-success"; $shadow = "shadow";
+        $bg = "bg-success";
+        $shadow = "shadow";
         return view('includes.member', compact("member", "bg", "shadow"));
     })->name('member.details');
 
@@ -96,6 +100,18 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
         Route::get('list/{member}', [WithdrawController::class, 'list'])->name("list");
     });
 
+    // bank module
+    Route::prefix('bank-account')->name('bank-account.')->group(function () {
+        Route::get('transaction', [BankAccountController::class, 'transaction'])->name("transaction");
+        Route::post('transaction-store', [BankAccountController::class, 'transactionStore'])->name("transaction.store");
+        Route::get('transaction/{transaction}/edit', [BankAccountController::class, 'transactionEdit'])->name("transaction.edit");
+        Route::get('get-balance', function() {
+            $bank = BankAccount::findOrFail(request()->bank);
+            return $bank->balance ?? 0;
+        })->name("get-balance");
+    });
+    Route::resource('bank-account', BankAccountController::class);
+
     // group modlue
     Route::resource("group", GroupController::class);
     // area module
@@ -112,7 +128,7 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
     Route::resource('language', LanguageController::class);
 
     // User Module
-    Route::controller(UserController::class)->group(function(){
+    Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'index')->name('users');
         Route::get('/users/create', 'create')->name('users.create');
         Route::post('/users/create', 'store')->name('users.create');
@@ -131,11 +147,10 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function(){
 
 
     // settings
-    Route::prefix('settings')->group(function(){
+    Route::prefix('settings')->group(function () {
         Route::get('general', [SettingsController::class, 'index'])->name('settings.general');
         Route::post('general', [SettingsController::class, 'store'])->name('settings.general');
     });
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
