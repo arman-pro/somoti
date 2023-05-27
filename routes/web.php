@@ -104,10 +104,10 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function ()
     Route::prefix('bank-account')->name('bank-account.')->group(function () {
         Route::get('transaction', [BankAccountController::class, 'transaction'])->name("transaction");
         Route::post('transaction-store', [BankAccountController::class, 'transactionStore'])->name("transaction.store");
-        Route::get('transaction/{transaction}/edit', [BankAccountController::class, 'transactionEdit'])->name("transaction.edit");
+        Route::put('transaction/{transaction}', [BankAccountController::class, 'transactionUpdate'])->name("transaction.update");
         Route::get('get-balance', function() {
             $bank = BankAccount::findOrFail(request()->bank);
-            return $bank->balance ?? 0;
+            return number_format($bank->balance ?? 0);
         })->name("get-balance");
     });
     Route::resource('bank-account', BankAccountController::class);

@@ -156,6 +156,98 @@
         </div>
     @endcan
 
+    @can('bank-transaction-edit')
+    {{-- edit form --}}
+    <div class="modal fade" id="editTransaction" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <form action="" method="post" id="edit-transaction">
+            @csrf @method('PUT')
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('Edit Transaction')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="form-row">
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label for="date">@lang('Date')*</label>
+                                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                        <input type="text" name="date" placeholder="@lang('Date')"
+                                            class="form-control form-control-sm @error('date') is-invalid @enderror datetimepicker-input"
+                                            data-target="#datetimepicker1" required />
+                                        <div class="input-group-append" data-target="#datetimepicker1"
+                                            data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                    @error('date')
+                                        <p class="m-0 text-danger"><small>{{ $message }}</small></p>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label for="bankAccountEdit">@lang('Bank Account')*</label>
+                                    <select name="bank_account" id="bankAccountEdit"
+                                        class="form-control form-control-sm @error('bank_account') is-invalid @enderror"
+                                        required />
+                                    <option value="" hidden>@lang('Select a Bank Account')</option>
+                                    @forelse ($bankAccounts as $bankAccount)
+                                        <option value="{{ $bankAccount->id }}">{{ $bankAccount->name }}
+                                        </option>
+                                    @empty
+                                    @endforelse
+                                    </select>
+                                    @error('bank_account')
+                                        <p class="m-0 text-danger"><small>{{ $message }}</small></p>
+                                    @enderror
+                                    <p class="m-0 p-0 text-danger"><span id="show-bank-balance-edit"></span></p>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label for="amount">@lang('Amount')*</label>
+                                    <input type="number" name="amount" placeholder="@lang('Amount')"
+                                        value="{{ old('amount') }}" id="amount"
+                                        class="form-control form-control-sm @error('amount') is-invalid @enderror "
+                                        required />
+                                    @error('amount')
+                                        <p class="m-0 text-danger"><small>{{ $message }}</small></p>
+                                    @enderror
+
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label for="">@lang('Transaction Type')</label> <br />
+                                    <div class="form-check-inline icheck-primary icheck-inline">
+                                        <input type="radio" name="transaction_type" id="deposit" value="deposit" />
+                                        <label for="deposit">@lang('Deposit')</label>
+                                    </div>
+                                    <div class="form-check-inline icheck-primary icheck-inline">
+                                        <input type="radio" name="transaction_type" value="withdraw" id="withdraw" />
+                                        <label for="withdraw">@lang('Withdraw')</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="note">@lang('Note')</label>
+                                <textarea name="note" id="note" class="form-control form-control-sm @error('note') is-invalid @enderror "
+                                    cols="30" rows="2" placeholder="@lang('Note')">{{ old('note') }}</textarea>
+                                @error('Note')
+                                    <p class="m-0 text-danger"><small>{{ $message }}</small></p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    @endcan
+
 
 @endsection
 
@@ -253,6 +345,11 @@
                 date: moment(),
             });
 
+            $('#datetimepicker1').datetimepicker({
+                format: "{{ dataFormat() }}",
+                date: moment(),
+            });
+
             $('#bankAccount').select2({
                 theme: "bootstrap4",
                 allowClear: true,
@@ -273,6 +370,78 @@
                     },
                 });
             });
+
+            $("#bankAccountEdit").change(function() {
+                $('#show-bank-balance-edit').text(null);
+                let bankAccount = $(this).val();
+                $.ajax({
+                    data: {
+                        bank: bankAccount
+                    },
+                    url: "{{ route('bank-account.get-balance') }}",
+                    method: 'GET',
+                    success: function(data) {
+                        $('#show-bank-balance-edit').text("Balance: " + data);
+                    },
+                });
+            });
+
+            @can('bank-transaction-edit')
+            $(document).on("click", ".edit_btn", function() {
+                let href = $(this).data('href');
+                $('#editTransaction').modal('show');
+                var tr = $(this).closest('tr');
+                var row = table.row(tr).data();
+                $('#edit-transaction input[name="date"]').val(row.date);
+                $('#edit-transaction select[name="bank_account"]').val(row.bankaccount_id).trigger(
+                'change');
+                $('#edit-transaction input[name="amount"]').val(row.amount);
+                $('#edit-transaction input[name="transaction_type"]').val([row.transaction_type
+                    .toLocaleLowerCase()
+                ]);
+                $('#edit-transaction textarea[name="note"]').val(row.note);
+                $('#edit-transaction').attr("action", href);
+                $('#bankAccountEdit').trigger('change');
+            })
+
+            $(document).on('submit', '#edit-transaction', function(evt) {
+                evt.preventDefault();
+                var data = Object.fromEntries(new FormData(evt.target).entries());
+                let action = $(this).attr('action');
+                $.ajax({
+                    url: action,
+                    method: 'post',
+                    data: data,
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#edit-transaction button[type="submit"]').html(
+                            LOADING_SPINNER);
+                    },
+                    success: function(data) {                        
+                        if (data.success) {
+                            $('#edit-transaction button[type="submit"]').html(
+                                "{{ __('Save') }}");
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Created',
+                                text: data.message,
+                            });
+                            $('#edit-transaction').trigger('reset');
+                            $('#bankAccount').val(null).trigger('change');
+                            table.ajax.reload(null, false);
+                            $('#editTransaction').modal('hide');
+                        }
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'opps!',
+                            text: "Something went worng!",
+                        });
+                    },
+                });
+            });
+            @endcan
 
             @can('bank-transaction-add')
                 $('#add-new-transaction').on('submit', function(evt) {

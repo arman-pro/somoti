@@ -46,16 +46,20 @@ class BankAccountController extends Controller
         return view('pages.bankaccount.transaction', compact("bankAccounts"));
     }
 
+    /**
+     * get transaction list
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function transactions()
     {
         $transactions = BankTransaction::with(['bank:id,name,branch_id', 'bank.branch:id,name'])->orderBy('id', 'desc');
         return DataTables()->eloquent($transactions)
-        ->editColumn('date', function(BankTransaction $bankTransaction) {
-            return printDateFormat($bankTransaction->date);
-        })
-        ->editColumn('amount', function(BankTransaction $bankTransaction) {
-            return number_format($bankTransaction->amount, 2);
-        })
+        ->addIndexColumn()
+        ->setRowId('id')
+        ->editColumn('date', '{{printDateFormat($date)}}')
+        ->editColumn('transaction_type', '{{ucfirst($transaction_type)}}')
+        ->editColumn('note', '{{$note ?? "N/A"}}')
         ->addColumn('action', function (BankTransaction $bankTransaction) {
             return view('action.bank-transaction', compact('bankTransaction'));
         })
@@ -63,13 +67,66 @@ class BankAccountController extends Controller
         ->toJson();
     }
 
-    public function transactionEdit()
-    {
 
+    /**
+     * update transaction update
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @param int $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function transactionUpdate(Request $request, $transaction)
+    {
+        $request->validate([
+            'date' => ['required', 'date_format:' . filterDateFormat() . ''],
+            'bank_account' => ['required'],
+            'amount' => ['required'],
+            'transaction_type' => ['required'],
+            'note' => ['nullable'],
+        ]);
+
+        $data = $request->all();
+        $data['bankaccount_id'] = $data['bank_account'];
+
+        $bankTransaction = BankTransaction::with(['bank'])->findOrFail($transaction);
+
+        DB::beginTransaction();
+        try {
+            if($bankTransaction->transaction_type == 'deposit') {
+                $bankTransaction->bank()->update([
+                    'balance' => $bankTransaction->bank->balance -= ($bankTransaction->amount ?? 0)
+                ]);
+            }
+            if($bankTransaction->transaction_type == 'withdraw') {
+                $bankTransaction->bank()->update([
+                    'balance' => $bankTransaction->bank->balance += ($bankTransaction->amount ?? 0)
+                ]); 
+            }
+            $bankTransaction->update($data);
+            if($request->transaction_type == 'deposit') {
+                $bankTransaction->bank()->update([
+                    'balance' => $bankTransaction->bank->balance += ($request->amount ?? 0)
+                ]);
+            }
+            if($request->transaction_type == 'withdraw') {
+                $bankTransaction->bank()->update([
+                    'balance' => $bankTransaction->bank->balance -= ($request->amount ?? 0)
+                ]); 
+            }
+            DB::commit();
+        }catch(\Exception $e) {
+            DB::rollback();
+            abort(505, 'Something went worng!');
+        }        
+        return response()->json([
+            "success" => true,
+            "message" => "Bank Transaction updated successfull!",
+        ]);
     }
 
     /**
      * store bank transaction
+     * 
      * @param \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */

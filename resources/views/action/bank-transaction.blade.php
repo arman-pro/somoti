@@ -5,7 +5,7 @@
     </button>
     <div class="dropdown-menu" role="menu">        
         @can('bank-transaction-edit')
-            <a class="dropdown-item" href="{{route('bank-account.transaction.edit', ['transaction' => $bankTransaction->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
+            <a class="dropdown-item edit_btn" href="javascript:void(0)" data-href="{{route('bank-account.transaction.update', ['transaction' => $bankTransaction->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
         @endcan
         @can('bank-transaction-delete')
             <button type="button" class="dropdown-item delete_btn" data-href="#"><i class="fas fa-trash"></i> @lang('Delete')</button>
