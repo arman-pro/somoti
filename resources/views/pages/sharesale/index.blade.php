@@ -297,9 +297,8 @@
                         });
                     }
                 });
-            })
+            });
 
-            // delete user
             // delete user
             $(document).on('click', '.delete_btn', function(){
                 let href = $(this).data('href');

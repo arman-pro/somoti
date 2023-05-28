@@ -105,6 +105,7 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function ()
         Route::get('transaction', [BankAccountController::class, 'transaction'])->name("transaction");
         Route::post('transaction-store', [BankAccountController::class, 'transactionStore'])->name("transaction.store");
         Route::put('transaction/{transaction}', [BankAccountController::class, 'transactionUpdate'])->name("transaction.update");
+        Route::delete('transaction/{transaction}', [BankAccountController::class, 'transactionDelete'])->name("transaction.delete");
         Route::get('get-balance', function() {
             $bank = BankAccount::findOrFail(request()->bank);
             return number_format($bank->balance ?? 0);

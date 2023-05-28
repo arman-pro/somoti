@@ -8,7 +8,7 @@
             <a class="dropdown-item edit_btn" href="javascript:void(0)" data-href="{{route('bank-account.transaction.update', ['transaction' => $bankTransaction->id])}}"><i class="fas fa-edit"></i> @lang('Edit')</a>
         @endcan
         @can('bank-transaction-delete')
-            <button type="button" class="dropdown-item delete_btn" data-href="#"><i class="fas fa-trash"></i> @lang('Delete')</button>
+            <button type="button" data-href="{{route('bank-account.transaction.delete', ['transaction' => $bankTransaction->id])}}" class="dropdown-item delete_btn" ><i class="fas fa-trash"></i> @lang('Delete')</button>
         @endcan
     </div>
 </div>

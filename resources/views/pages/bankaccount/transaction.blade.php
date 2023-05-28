@@ -423,7 +423,7 @@
                                 "{{ __('Save') }}");
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Created',
+                                title: 'Updated',
                                 text: data.message,
                             });
                             $('#edit-transaction').trigger('reset');
@@ -482,6 +482,63 @@
                     });
                 });
             @endcan
+
+            // delete user
+            $(document).on('click', '.delete_btn', function(){
+                let href = $(this).data('href');
+                Swal.fire({
+                    title: 'Are you sure to Delete?',
+                    text: "You won't be able to undo this. Will you proceed to delete all student related data?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: "@lang('Yes, delete it!')",
+                    customClass: {
+                        confirmButton: 'btn btn-primary btn-lg',
+                        cancelButton: 'btn btn-danger btn-lg',
+                        loader: 'custom-loader',
+                    },
+                    loaderHtml: LOADING_SPINNER,
+                    preConfirm: () => {
+                        Swal.showLoading();
+                        return new Promise((resolve)=> {
+                            let form = new FormData();
+                            form.append('_token', $('meta[name="csrf_token"]').attr('content'));
+                            form.append('_method', "DELETE");
+                            let data = Object.fromEntries(form.entries())                        
+                            let post_ajax = $.ajax({
+                                url: href,
+                                method: "DELETE",
+                                data : data,
+                                success: function(data){
+                                    if(data.success) {
+                                        resolve({text:data.text, success: true});
+                                        table.ajax.reload(null, true);
+                                    }                                 
+                                }
+                            });
+                            post_ajax.fail(function(xhr, textStatus){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Opps..!',
+                                    text: textStatus,
+                                    timer: 5000,
+                                });
+                            });
+                        });
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed && result.value.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success..!',
+                            text: result.value.text,
+                            timer: 5000,
+                        });     
+                    };
+                });
+            });
         });
     </script>
 @endpush

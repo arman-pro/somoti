@@ -174,6 +174,32 @@ class BankAccountController extends Controller
     }
 
     /**
+     * delete transaction
+     * 
+     * @param int $transaction
+     * @return \Illuminate\Http\Response
+     */
+    public function transactionDelete($transaction) 
+    {
+        $bankTransaction = BankTransaction::findOrFail($transaction);
+        if($bankTransaction->transaction_type == 'deposit') {
+            $bankTransaction->bank()->update([
+                'balance' => $bankTransaction->bank->balance -= ($bankTransaction->amount ?? 0)
+            ]);
+        }
+        if($bankTransaction->transaction_type == 'withdraw') {
+            $bankTransaction->bank()->update([
+                'balance' => $bankTransaction->bank->balance += ($bankTransaction->amount ?? 0)
+            ]); 
+        }
+        $bankTransaction->delete();
+        return response()->json([
+            'success' => true,
+            'text' => 'Bank Transaction deleted successfull!',
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
