@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DpsController;
 use App\Http\Controllers\DpsTypeController;
 use App\Http\Controllers\ExpenseCategoryController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FdrController;
 use App\Http\Controllers\FdrTypeController;
 use App\Http\Controllers\GroupController;
@@ -126,6 +127,9 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function ()
 
     // income mdoule
     Route::resource('income', IncomeController::class);
+
+    // expense module
+    Route::resource('expense', ExpenseController::class);
 
     // expense category
     Route::resource("expense-category", ExpenseCategoryController::class);
