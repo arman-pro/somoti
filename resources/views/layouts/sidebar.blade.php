@@ -476,6 +476,7 @@
                   @lang('Cash Adjustment')
                 </a>
               </li>
+
               @can('incomeCategory-index')
               <li class="nav-item">
                 <a href="{{route('income-category.index')}}" class="nav-link">
@@ -484,18 +485,23 @@
                 </a>
               </li>
               @endcan
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Income Add')
                 </a>
               </li>
+
+              @can('expenseCategory-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('expense-category.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Expense Category')
                 </a>
               </li>
+              @endcan 
+              
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
