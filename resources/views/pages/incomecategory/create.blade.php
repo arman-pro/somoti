@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', __('Edit Account'))
+@section('title', __('Add New Income Category'))
 
 @section('page-header')
     <!-- Content Header (Page header) -->
@@ -7,17 +7,14 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h4 class="m-0">@lang('Edit Account')</h4>
+            <h4 class="m-0">@lang('Add New Income Category')</h4>
             </div>
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     <a href="{{route('dashboard')}}">@lang("Dashboard")</a>
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="{{route('account.index')}}">@lang("Account List")</a>
-                </li>
-                <li class="breadcrumb-item active">@lang('Edit Account')</li>
+                <li class="breadcrumb-item active">@lang('Add New Income Category')</li>
             </ol>
             </div>
         </div>
@@ -28,8 +25,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    @can('account-index')
-                        <a href="{{route('account.index')}}" class="btn btn-sm btn-success">@lang('Account List')</a>
+                    @can('income-category-index')
+                        <a href="{{route('incomecategory.index')}}" class="btn btn-sm btn-success">@lang('Income Category List')</a>
                     @endcan
                 </div>
             </div>
@@ -41,11 +38,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <form action="{{route('account.update', ['account' => $account->id])}}" method="post">
-                @csrf @method('PUT')
-                <div class="card shadow">
-                    <div class="card-header bg-success">
-                        <h4 class="card-title">@lang('Edit Account')</h4>
+            <form action="{{route('income-category.store')}}" method="post">
+                @csrf
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@lang('Add New Income Category')</h4>
                     </div>
                     <div class="card-body">
                         <div class="row">

@@ -14,7 +14,7 @@ trait PermissionTrait {
 
         return [
             'member', 'savings', 'dpsType', 'dps', 'fdrType', 'fdr', 'loanType', 'loan', 'user', 
-            'bank', 'account',
+            'bank', 'account', 'incomeCategory',
             'role', 'language', 'branch', 'area', 'group', 'sharePurchase', 'shareSale', 
         ];
     }

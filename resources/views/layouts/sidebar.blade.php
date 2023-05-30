@@ -476,12 +476,14 @@
                   @lang('Cash Adjustment')
                 </a>
               </li>
+              @can('incomeCategory-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('income-category.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Income Category')
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

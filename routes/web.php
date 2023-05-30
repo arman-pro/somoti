@@ -12,6 +12,7 @@ use App\Http\Controllers\DpsTypeController;
 use App\Http\Controllers\FdrController;
 use App\Http\Controllers\FdrTypeController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LoanTypeController;
@@ -116,6 +117,9 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function ()
 
     // account
     Route::resource('account', AccountController::class);
+
+    // income category
+    Route::resource("income-category", IncomeCategoryController::class);
 
     // group modlue
     Route::resource("group", GroupController::class);
