@@ -172,3 +172,25 @@ if(!function_exists('generateSharePurchaseVoucharNo')) {
         return "$prefix-001";
     }
 }
+
+if(!function_exists('generateIncomeVoucharNo')) {
+    /**
+     * generate a unique income vouchar no
+     * @param string $prefix default 'IN'
+     * @return string unique mixed
+     */
+    function generateIncomeVoucharNo($prefix='IN'){
+        $lastIncome = \App\Models\Income::select('voucher_no')->where('voucher_no', 'LIKE', $prefix . '%')->orderBy('id', 'desc')->first();
+        if($lastIncome) {
+            $lastVoucharNo = str_replace("$prefix-", '', $lastIncome->voucher_no);
+            if($lastVoucharNo < 9) {
+                return "$prefix-00" . ($lastVoucharNo + 1);
+            }
+            if($lastVoucharNo < 99) {
+                return "$prefix-0" . ($lastVoucharNo + 1);
+            }
+            return "$prefix-" . ($lastVoucharNo + 1);
+        }
+        return "$prefix-001";
+    }
+}

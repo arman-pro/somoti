@@ -14,6 +14,7 @@ use App\Http\Controllers\FdrController;
 use App\Http\Controllers\FdrTypeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\IncomeCategoryController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LoanTypeController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\ShareSaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
 use App\Models\BankAccount;
+use App\Models\IncomeCategory;
 use App\Models\Member;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -122,8 +124,12 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function ()
     // income category
     Route::resource("income-category", IncomeCategoryController::class);
 
+    // income mdoule
+    Route::resource('income', IncomeController::class);
+
     // expense category
     Route::resource("expense-category", ExpenseCategoryController::class);
+    
 
     // group modlue
     Route::resource("group", GroupController::class);

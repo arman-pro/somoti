@@ -486,12 +486,14 @@
               </li>
               @endcan
 
+              @can('income-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route("income.index")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  @lang('Income Add')
+                  @lang('Income List')
                 </a>
               </li>
+              @endcan
 
               @can('expenseCategory-index')
               <li class="nav-item">
