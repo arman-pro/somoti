@@ -18,5 +18,8 @@ return [
         'App\Models\Setting' => "Setting",
         'App\Models\User' => "User",
         'App\Models\LoanType' => "Loan Type",
+        'App\Models\Account' => "Account",
+        'App\Models\BankTransaction' => "Bank Transaction",
+        'App\Models\BankAccount' => "Bank Account",
     ]
 ];

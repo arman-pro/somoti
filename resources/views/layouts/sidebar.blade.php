@@ -445,22 +445,25 @@
                   </a>
                 </li>
                 @endcan
-                
+              
+              @can('account-index')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('account.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Accounts List')
                 </a>
               </li>
+              @endcan
 
+              @can('account-create')
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('account.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   @lang('Add New Accounts')
                 </a>
               </li>
+              @endcan
             
-
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BankAccountController;
@@ -112,6 +113,9 @@ Route::middleware(['auth', 'is_active'])->prefix('dashboard')->group(function ()
         })->name("get-balance");
     });
     Route::resource('bank-account', BankAccountController::class);
+
+    // account
+    Route::resource('account', AccountController::class);
 
     // group modlue
     Route::resource("group", GroupController::class);
